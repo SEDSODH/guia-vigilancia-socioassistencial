@@ -1,0 +1,48 @@
+---
+import SectionHeader from '@/components/astro/layout/SectionHeader.astro'
+import ProcessStepper from '@/components/astro/content/ProcessStepper.astro'
+import AlertBox from '@/components/astro/content/AlertBox.astro'
+---
+<div id="formalizacao" class="mb-16 animate-on-scroll">
+  <SectionHeader title="4. Formalização da Vigilância Socioassistencial" />
+  <div class="prose max-w-none text-slate-700 dark:text-slate-300 space-y-6 text-base leading-relaxed">
+    <p class="text-lg"><strong>Objetivo:</strong> instituir formalmente a Vigilância Socioassistencial na estrutura organizacional da Secretaria Municipal de Assistência Social.</p>
+  </div>
+
+  <div class="mt-8">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-4">Ações da Etapa 1</h3>
+    <ProcessStepper
+      steps={[
+        { number: 1, title: 'Inserir no organograma', description: 'Inserir a Vigilância Socioassistencial no organograma da Secretaria Municipal de Assistência Social, garantindo status institucional e subordinação hierárquica definida.', accent: 'blue' },
+        { number: 2, title: 'Instituir coordenação', description: 'Criar coordenação, núcleo ou setor específico para a Vigilância, com atribuições formalizadas e recursos alocados.', accent: 'blue' },
+        { number: 3, title: 'Publicar Portaria', description: 'Publicar ato administrativo (Portaria) designando responsável técnico pela Vigilância Socioassistencial.', accent: 'green' },
+        { number: 4, title: 'Definir competências', description: 'Definir formalmente as competências e atribuições da área, com clareza sobre responsabilidades e articulação com os demais setores.', accent: 'green' },
+      ]}
+    />
+  </div>
+
+  <div class="mt-10">
+    <AlertBox variant="success" title="Produtos Esperados">
+      <ul class="list-disc list-inside space-y-1.5">
+        <li>Área formalmente instituída na estrutura da Secretaria</li>
+        <li>Responsável técnico designado com Portaria publicada</li>
+        <li>Competências e atribuições definidas e divulgadas</li>
+      </ul>
+    </AlertBox>
+  </div>
+
+  <div class="mt-8 prose max-w-none text-slate-700 dark:text-slate-300 space-y-4 text-base leading-relaxed">
+    <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200">Por que formalizar?</h3>
+    <p>A formalização da Vigilância Socioassistencial é a etapa <strong>fundacional</strong> do processo de implantação. Sem institucionalização formal, a Vigilância tende a depender de esforços individuais e descontínuos, sem continuidade administrativa e sem respaldo normativo.</p>
+    <p>A formalização confere <strong>legitimidade, estabilidade e sustentabilidade</strong> à área, independentemente de mudanças de gestão. É o que permite que a Vigilância deixe de ser uma ação isolada e se torne uma <strong>função permanente</strong> do SUAS municipal.</p>
+
+    <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mt-6">Institucionalização completa da Vigilância</h3>
+    <p>Para um processo de institucionalização robusto, recomenda-se a articulação de <strong>quatro movimentos complementares</strong>:</p>
+    <ol class="list-decimal list-inside space-y-2">
+      <li><strong>Elaboração e publicação de Portaria</strong> do Órgão Gestor instituindo formalmente a Vigilância Socioassistencial</li>
+      <li><strong>Definição da unidade administrativa</strong> responsável e das atribuições da equipe</li>
+      <li><strong>Aprovação, pelo CMAS, de Resolução</strong> que reconheça e apoie a institucionalização da Vigilância Socioassistencial no município</li>
+      <li><strong>Divulgação interna do normativo</strong> às equipes da gestão e da rede socioassistencial</li>
+    </ol>
+  </div>
+</div>

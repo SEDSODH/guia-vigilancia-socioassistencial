@@ -1,0 +1,46 @@
+---
+import SectionHeader from '@/components/astro/layout/SectionHeader.astro'
+import AlertBox from '@/components/astro/content/AlertBox.astro'
+import InfoCard from '@/components/astro/content/InfoCard.astro'
+import FAQAccordion from '@/components/react/content/FAQAccordion'
+import { faqItems } from '@/data/faq'
+---
+
+<section id="faq" class="animate-slide-right">
+  <SectionHeader title="Perguntas Frequentes" />
+
+  <AlertBox variant="info" title="Sobre este FAQ">
+    <p>
+      Este FAQ reúne as perguntas mais frequentes sobre a Vigilância
+      Socioassistencial, abordando desde conceitos fundamentais até aspectos
+      operacionais e de institucionalização. Consulte-o sempre que precisar
+      esclarecer dúvidas sobre a implantação e o funcionamento da Vigilância no
+      âmbito do SUAS.
+    </p>
+  </AlertBox>
+
+  <div class="mt-6 grid gap-6 sm:grid-cols-2">
+    <InfoCard title="Não encontrou sua dúvida?" accent="blue">
+      <p>
+        Entre em contato conosco pelo e-mail
+        <a href="mailto:coordvigilanciasgs@sedsdh.rj.gov.br" class="underline font-medium">
+          coordvigilanciasgs@sedsdh.rj.gov.br
+        </a>
+        para enviar sua pergunta. Sua contribuição nos ajuda a manter este FAQ
+        atualizado e relevante.
+      </p>
+    </InfoCard>
+    <InfoCard title="Sugestão de Perguntas Frequentes" accent="green">
+      <ul class="list-disc list-inside space-y-1">
+        <li>Conceitos e Fundamentos da Vigilância Socioassistencial</li>
+        <li>Institucionalização e Formalização</li>
+        <li>Instrumentos, Produtos e Fontes de Informação</li>
+        <li>Públicos Prioritários e Operacionalização</li>
+      </ul>
+    </InfoCard>
+  </div>
+
+  <div class="mt-8">
+    <FAQAccordion client:load items={faqItems} />
+  </div>
+</section>

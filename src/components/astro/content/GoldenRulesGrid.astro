@@ -1,0 +1,409 @@
+---
+export interface Rule {
+  number: number
+  title: string
+  description: string
+  highlight?: boolean
+  highlightColor?: string
+}
+
+export interface Props {
+  rules: Rule[]
+  class?: string
+}
+
+const { rules, class: className } = Astro.props
+
+// ── SVG icons (inline, Lucide-style) ──
+const starIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'
+
+const shieldIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>'
+
+const lightbulbIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg>'
+
+const checkCircleIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'
+
+const awardIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>'
+
+const flagIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>'
+
+const globeIcon =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>'
+
+const regularIcons = [shieldIcon, lightbulbIcon, checkCircleIcon, awardIcon, flagIcon, globeIcon]
+
+const variants = ['slate', 'blue', 'green', 'purple', 'cyan', 'amber']
+
+function getIcon(index: number, isHighlight: boolean | undefined): string {
+  if (isHighlight) return starIcon
+  return regularIcons[index % regularIcons.length]
+}
+
+function getVariant(index: number, isHighlight: boolean | undefined): string {
+  if (isHighlight) return 'highlight'
+  return variants[index % variants.length]
+}
+---
+
+<div class={`grid grid-cols-1 md:grid-cols-2 gap-4 ${className ?? ''}`}>
+  {rules.map((rule, index) => {
+    const variant = getVariant(index, rule.highlight)
+    const icon = getIcon(index, rule.highlight)
+    return (
+      <div
+        class={`rule-card card-${variant} animate-slide-down`}
+        style={`--delay: ${index * 100}ms`}
+      >
+        <div class={`rule-icon icon-${variant}`} set:html={icon} />
+        <div class="rule-content">
+          <span class="rule-badge">REGRA {rule.number}</span>
+          <h4 class="rule-title">{rule.title}</h4>
+          <p class="rule-desc">{rule.description}</p>
+        </div>
+      </div>
+    )
+  })}
+</div>
+
+<style>
+  /* ============================================ */
+  /* ANIMAÇÃO ESCALONADA                          */
+  /* ============================================ */
+
+  .animate-slide-down {
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: slideDown 0.5s ease-out forwards;
+    animation-delay: var(--delay, 0ms);
+  }
+
+  @keyframes slideDown {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ============================================ */
+  /* CARD - BASE                                  */
+  /* ============================================ */
+
+  .rule-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+    border: 2px solid transparent;
+    background: white;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .rule-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+
+  /* ============================================ */
+  /* ÍCONE DO CARD (48px)                         */
+  /* ============================================ */
+
+  .rule-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: white;
+  }
+
+  /* ============================================ */
+  /* CONTEÚDO                                     */
+  /* ============================================ */
+
+  .rule-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .rule-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.0625rem 0.375rem;
+    border-radius: 9999px;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    width: fit-content;
+    line-height: 1.3;
+  }
+
+  .rule-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .rule-desc {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    margin: 0;
+    color: #64748b;
+  }
+
+  /* ============================================ */
+  /* VARIANTE: HIGHLIGHT (Gold/Star)              */
+  /* ============================================ */
+
+  .card-highlight {
+    border-color: #f59e0b;
+    background: linear-gradient(135deg, #fffbeb 0%, white 100%);
+  }
+
+  .icon-highlight {
+    background: linear-gradient(135deg, #f59e0b 0%, #f97316 100%);
+  }
+
+  .card-highlight .rule-title {
+    color: #b45309;
+  }
+
+  .card-highlight .rule-badge {
+    background: #f59e0b;
+    color: white;
+  }
+
+  /* ============================================ */
+  /* VARIANTE: SLATE                              */
+  /* ============================================ */
+
+  .card-slate {
+    border-color: #94a3b8;
+    background: linear-gradient(135deg, #f8fafc 0%, white 100%);
+  }
+
+  .icon-slate {
+    background: linear-gradient(135deg, #64748b 0%, #94a3b8 100%);
+  }
+
+  .card-slate .rule-title {
+    color: #334155;
+  }
+
+  .card-slate .rule-badge {
+    background: #64748b;
+    color: white;
+  }
+
+  /* ============================================ */
+  /* VARIANTE: BLUE                               */
+  /* ============================================ */
+
+  .card-blue {
+    border-color: #60a5fa;
+    background: linear-gradient(135deg, #eff6ff 0%, white 100%);
+  }
+
+  .icon-blue {
+    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+  }
+
+  .card-blue .rule-title {
+    color: #1d4ed8;
+  }
+
+  .card-blue .rule-badge {
+    background: #3b82f6;
+    color: white;
+  }
+
+  /* ============================================ */
+  /* VARIANTE: GREEN                              */
+  /* ============================================ */
+
+  .card-green {
+    border-color: #4ade80;
+    background: linear-gradient(135deg, #f0fdf4 0%, white 100%);
+  }
+
+  .icon-green {
+    background: linear-gradient(135deg, #22c55e 0%, #4ade80 100%);
+  }
+
+  .card-green .rule-title {
+    color: #15803d;
+  }
+
+  .card-green .rule-badge {
+    background: #22c55e;
+    color: white;
+  }
+
+  /* ============================================ */
+  /* VARIANTE: PURPLE                             */
+  /* ============================================ */
+
+  .card-purple {
+    border-color: #c084fc;
+    background: linear-gradient(135deg, #f5f3ff 0%, white 100%);
+  }
+
+  .icon-purple {
+    background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+  }
+
+  .card-purple .rule-title {
+    color: #6d28d9;
+  }
+
+  .card-purple .rule-badge {
+    background: #8b5cf6;
+    color: white;
+  }
+
+  /* ============================================ */
+  /* VARIANTE: CYAN                               */
+  /* ============================================ */
+
+  .card-cyan {
+    border-color: #22d3ee;
+    background: linear-gradient(135deg, #ecfeff 0%, white 100%);
+  }
+
+  .icon-cyan {
+    background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 100%);
+  }
+
+  .card-cyan .rule-title {
+    color: #0e7490;
+  }
+
+  .card-cyan .rule-badge {
+    background: #06b6d4;
+    color: white;
+  }
+
+  /* ============================================ */
+  /* VARIANTE: AMBER                              */
+  /* ============================================ */
+
+  .card-amber {
+    border-color: #fbbf24;
+    background: linear-gradient(135deg, #fffbeb 0%, white 100%);
+  }
+
+  .icon-amber {
+    background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+  }
+
+  .card-amber .rule-title {
+    color: #b45309;
+  }
+
+  .card-amber .rule-badge {
+    background: #d97706;
+    color: white;
+  }
+
+  /* ============================================ */
+  /* TEMA ESCURO                                  */
+  /* ============================================ */
+
+  :global(.dark) .rule-card {
+    background: #1e293b;
+    border-color: #334155;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  }
+
+  :global(.dark) .rule-card:hover {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.4);
+  }
+
+  :global(.dark) .rule-desc {
+    color: #94a3b8;
+  }
+
+  /* Highlight — dark */
+  :global(.dark) .card-highlight {
+    background: linear-gradient(135deg, #451a03 0%, #1e293b 100%);
+    border-color: #f59e0b;
+  }
+
+  :global(.dark) .card-highlight .rule-title {
+    color: #fcd34d;
+  }
+
+  /* Slate — dark */
+  :global(.dark) .card-slate {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border-color: #64748b;
+  }
+
+  :global(.dark) .card-slate .rule-title {
+    color: #cbd5e1;
+  }
+
+  /* Blue — dark */
+  :global(.dark) .card-blue {
+    background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+    border-color: #3b82f6;
+  }
+
+  :global(.dark) .card-blue .rule-title {
+    color: #93c5fd;
+  }
+
+  /* Green — dark */
+  :global(.dark) .card-green {
+    background: linear-gradient(135deg, #14532d 0%, #0f172a 100%);
+    border-color: #22c55e;
+  }
+
+  :global(.dark) .card-green .rule-title {
+    color: #86efac;
+  }
+
+  /* Purple — dark */
+  :global(.dark) .card-purple {
+    background: linear-gradient(135deg, #2e1065 0%, #0f172a 100%);
+    border-color: #8b5cf6;
+  }
+
+  :global(.dark) .card-purple .rule-title {
+    color: #c4b5fd;
+  }
+
+  /* Cyan — dark */
+  :global(.dark) .card-cyan {
+    background: linear-gradient(135deg, #083344 0%, #0f172a 100%);
+    border-color: #06b6d4;
+  }
+
+  :global(.dark) .card-cyan .rule-title {
+    color: #67e8f9;
+  }
+
+  /* Amber — dark */
+  :global(.dark) .card-amber {
+    background: linear-gradient(135deg, #451a03 0%, #0f172a 100%);
+    border-color: #d97706;
+  }
+
+  :global(.dark) .card-amber .rule-title {
+    color: #fcd34d;
+  }
+</style>

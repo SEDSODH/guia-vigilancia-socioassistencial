@@ -1,0 +1,144 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro'
+import Sidebar from '@/components/astro/layout/Sidebar.astro'
+import ScrollToTop from '@/components/react/layout/ScrollToTop'
+
+import BlockAccordion from '@/components/react/layout/BlockAccordion'
+import BookViewport from '@/components/react/layout/BookViewport'
+import { BLOCK_ACCENTS } from '@/lib/constants'
+
+import Capa from '@/components/astro/capitulos/Capa.astro'
+import Expediente from '@/components/astro/capitulos/Expediente.astro'
+import Sumario from '@/components/astro/capitulos/Sumario.astro'
+import Apresentacao from '@/components/astro/capitulos/Apresentacao.astro'
+import BaseNormativa from '@/components/astro/capitulos/BaseNormativa.astro'
+import VigilanciaNoSUAS from '@/components/astro/capitulos/VigilanciaNoSUAS.astro'
+import Formalizacao from '@/components/astro/capitulos/Formalizacao.astro'
+import ModeloPortaria from '@/components/astro/capitulos/ModeloPortaria.astro'
+import ResolucaoCMAS from '@/components/astro/capitulos/ResolucaoCMAS.astro'
+import EstruturaEquipe from '@/components/astro/capitulos/EstruturaEquipe.astro'
+
+import DisseminacaoInformacao from '@/components/astro/capitulos/DisseminacaoInformacao.astro'
+import ApoioPlanejamento from '@/components/astro/capitulos/ApoioPlanejamento.astro'
+import Consolidacao from '@/components/astro/capitulos/Consolidacao.astro'
+import ConsideracoesFinais from '@/components/astro/capitulos/ConsideracoesFinais.astro'
+import Referencias from '@/components/astro/capitulos/Referencias.astro'
+import FAQ from '@/components/astro/capitulos/FAQ.astro'
+import RegrasOuro from '@/components/astro/capitulos/RegrasOuro.astro'
+import ContraCapa from '@/components/astro/capitulos/ContraCapa.astro'
+
+const b = BLOCK_ACCENTS
+---
+<BaseLayout>
+  <Sidebar />
+  <ScrollToTop client:idle />
+  <BlockAccordion client:idle />
+  <BookViewport client:load />
+
+  <div id="main-content" class="max-w-4xl mx-auto my-8 px-4 md:px-8 space-y-6">
+    <Capa />
+    <Expediente />
+    <Sumario />
+    <Apresentacao />
+
+    <div class="flex justify-center no-print">
+      <button id="toggle-all-blocks" class="flex items-center gap-2 px-4 py-2 text-sm font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-sm hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 15 12 9 18 15"/></svg>
+        Recolher todos
+      </button>
+    </div>
+
+    <!-- ======= BLOCO 1: Fundamentação ======= -->
+    <div data-block-group="bloco-1">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 rounded-full bg-institucional-blue"></div>
+          <span class="text-xs font-bold text-institucional-blue uppercase tracking-widest">Bloco 1 — Fundamentação</span>
+        </div>
+      </div>
+      <div data-block-content="bloco-1" class="space-y-6">
+        <section class={`bg-white dark:bg-slate-800 shadow-md rounded-xl p-6 md:p-10 print:shadow-none print:rounded-none border-l-4 ${b.gestao.border} transition-all hover:shadow-lg`}>
+          <BaseNormativa />
+        </section>
+        <section class={`bg-white dark:bg-slate-800 shadow-md rounded-xl p-6 md:p-10 print:shadow-none print:rounded-none border-l-4 ${b.gestao.border} transition-all hover:shadow-lg`}>
+          <VigilanciaNoSUAS />
+        </section>
+      </div>
+    </div>
+
+    <!-- ======= BLOCO 2: Institucionalização ======= -->
+    <div data-block-group="bloco-2">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 rounded-full bg-institucional-green"></div>
+          <span class="text-xs font-bold text-institucional-green uppercase tracking-widest">Bloco 2 — Institucionalização</span>
+        </div>
+      </div>
+      <div data-block-content="bloco-2" class="space-y-6">
+        <section class={`bg-white dark:bg-slate-800 shadow-md rounded-xl p-6 md:p-10 print:shadow-none print:rounded-none border-l-4 ${b.planejamento.border} transition-all hover:shadow-lg`}>
+          <Formalizacao />
+        </section>
+        <section class={`bg-white dark:bg-slate-800 shadow-md rounded-xl p-6 md:p-10 print:shadow-none print:rounded-none border-l-4 ${b.planejamento.border} transition-all hover:shadow-lg`}>
+          <ModeloPortaria />
+        </section>
+        <section class={`bg-white dark:bg-slate-800 shadow-md rounded-xl p-6 md:p-10 print:shadow-none print:rounded-none border-l-4 ${b.planejamento.border} transition-all hover:shadow-lg`}>
+          <ResolucaoCMAS />
+        </section>
+        <section class={`bg-white dark:bg-slate-800 shadow-md rounded-xl p-6 md:p-10 print:shadow-none print:rounded-none border-l-4 ${b.planejamento.border} transition-all hover:shadow-lg`}>
+          <EstruturaEquipe />
+        </section>
+      </div>
+    </div>
+
+    <!-- ======= BLOCO 3: Disseminação e Planejamento ======= -->
+    <div data-block-group="bloco-3">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 rounded-full" style="background-color: ${b.reprogramacao.hex}"></div>
+          <span class="text-xs font-bold ${b.reprogramacao.color} uppercase tracking-widest">Bloco 3 — Disseminação e Planejamento</span>
+        </div>
+      </div>
+      <div data-block-content="bloco-3" class="space-y-6">
+        <section class={`bg-white dark:bg-slate-800 shadow-md rounded-xl p-6 md:p-10 print:shadow-none print:rounded-none border-l-4 ${b.reprogramacao.border} transition-all hover:shadow-lg`}>
+          <DisseminacaoInformacao />
+        </section>
+        <section class={`bg-white dark:bg-slate-800 shadow-md rounded-xl p-6 md:p-10 print:shadow-none print:rounded-none border-l-4 ${b.reprogramacao.border} transition-all hover:shadow-lg`}>
+          <ApoioPlanejamento />
+        </section>
+      </div>
+    </div>
+
+    <!-- ======= BLOCO 4: Consolidação ======= -->
+    <div data-block-group="bloco-4">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-3 h-3 rounded-full" style="background-color: ${b.controle.hex}"></div>
+          <span class="text-xs font-bold ${b.controle.color} uppercase tracking-widest">Bloco 4 — Consolidação</span>
+        </div>
+      </div>
+      <div data-block-content="bloco-4" class="space-y-6">
+        <section class={`bg-white dark:bg-slate-800 shadow-md rounded-xl p-6 md:p-10 print:shadow-none print:rounded-none border-l-4 ${b.controle.border} transition-all hover:shadow-lg`}>
+          <Consolidacao />
+        </section>
+      </div>
+    </div>
+
+    <section class="bg-white dark:bg-slate-800 shadow-md rounded-xl p-6 md:p-10 print:shadow-none print:rounded-none transition-all hover:shadow-lg">
+      <ConsideracoesFinais />
+    </section>
+
+    <section class="bg-white dark:bg-slate-800 shadow-md rounded-xl p-6 md:p-10 print:shadow-none print:rounded-none transition-all hover:shadow-lg">
+      <Referencias />
+    </section>
+
+    <section class="bg-white dark:bg-slate-800 shadow-md rounded-xl p-6 md:p-10 print:shadow-none print:rounded-none border-l-4 border-slate-300 transition-all hover:shadow-lg">
+      <FAQ />
+    </section>
+    <section class="print:shadow-none print:rounded-none">
+      <RegrasOuro />
+    </section>
+    <section class="bg-white dark:bg-slate-800 shadow-md rounded-xl p-0 overflow-hidden print:shadow-none print:rounded-none">
+      <ContraCapa />
+    </section>
+  </div>
+</BaseLayout>

@@ -1,0 +1,182 @@
+---
+import type { LucideIcon } from 'lucide-react'
+import {
+  Shield,
+  Scale,
+  TrendingUp,
+  Target,
+  Users,
+  RefreshCw,
+  ClipboardList,
+  Gavel,
+} from 'lucide-react'
+
+export interface Props {
+  blockId: string
+  title: string
+  summary: string
+  keyPoints: string[]
+  icon: string
+  accentColor: string
+  accentBg: string
+}
+
+const { blockId, title, summary, keyPoints, icon, accentColor, accentBg } = Astro.props
+
+const iconMap: Record<string, LucideIcon> = {
+  Shield,
+  Scale,
+  TrendingUp,
+  Target,
+  Users,
+  RefreshCw,
+  ClipboardList,
+  Gavel,
+}
+
+const IconComponent = iconMap[icon]
+
+const blockNumber = blockId.match(/\d+$/)?.[0] ?? ''
+
+interface AccentStyle {
+  text: string
+  bg: string
+  border: string
+  badge: string
+  iconWrap: string
+}
+
+const accentStyles: Record<string, AccentStyle> = {
+  'institucional-blue': {
+    text: 'text-institucional-blue',
+    bg: 'bg-institucional-lightBlue',
+    border: 'border-institucional-blue',
+    badge: 'bg-institucional-lightBlue text-institucional-blue',
+    iconWrap: 'bg-institucional-lightBlue text-institucional-blue',
+  },
+  'institucional-green': {
+    text: 'text-institucional-green',
+    bg: 'bg-institucional-lightGreen',
+    border: 'border-institucional-green',
+    badge: 'bg-institucional-lightGreen text-institucional-green',
+    iconWrap: 'bg-institucional-lightGreen text-institucional-green',
+  },
+  'purple-600': {
+    text: 'text-purple-600',
+    bg: 'bg-purple-50',
+    border: 'border-purple-600',
+    badge: 'bg-purple-100 text-purple-600',
+    iconWrap: 'bg-purple-50 text-purple-600',
+  },
+  'amber-600': {
+    text: 'text-amber-600',
+    bg: 'bg-amber-50',
+    border: 'border-amber-500',
+    badge: 'bg-amber-100 text-amber-600',
+    iconWrap: 'bg-amber-50 text-amber-600',
+  },
+  'red-600': {
+    text: 'text-red-600',
+    bg: 'bg-red-50',
+    border: 'border-red-500',
+    badge: 'bg-red-100 text-red-600',
+    iconWrap: 'bg-red-50 text-red-600',
+  },
+  'cyan-600': {
+    text: 'text-cyan-600',
+    bg: 'bg-cyan-50',
+    border: 'border-cyan-500',
+    badge: 'bg-cyan-100 text-cyan-600',
+    iconWrap: 'bg-cyan-50 text-cyan-600',
+  },
+  'pink-600': {
+    text: 'text-pink-600',
+    bg: 'bg-pink-50',
+    border: 'border-pink-500',
+    badge: 'bg-pink-100 text-pink-600',
+    iconWrap: 'bg-pink-50 text-pink-600',
+  },
+  'slate-600': {
+    text: 'text-slate-600',
+    bg: 'bg-slate-100',
+    border: 'border-slate-400',
+    badge: 'bg-slate-200 text-slate-600',
+    iconWrap: 'bg-slate-100 text-slate-600',
+  },
+}
+
+const a: AccentStyle = accentStyles[accentColor] ?? {
+  text: `text-${accentColor}`,
+  bg: `bg-${accentBg}`,
+  border: `border-${accentColor}`,
+  badge: `bg-${accentBg} text-${accentColor}`,
+  iconWrap: `bg-${accentBg} text-${accentColor}`,
+}
+---
+
+<div class="animate-on-scroll bg-white dark:bg-slate-800 rounded-2xl shadow-md p-6 md:p-8 max-w-3xl">
+  <!-- Header: Icon + Title + Badge -->
+  <div class="flex items-start gap-4 mb-6">
+    <div class={`flex-shrink-0 w-12 h-12 rounded-xl ${a.iconWrap} flex items-center justify-center`}>
+      {
+        IconComponent && (
+          <IconComponent className={`w-6 h-6 stroke-2`} />
+        )
+      }
+    </div>
+    <div class="flex-1 min-w-0">
+      <div class="flex items-center gap-3 flex-wrap">
+        <h3 class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white tracking-tight">
+          {title}
+        </h3>
+        {
+          blockNumber && (
+            <span class={`flex-shrink-0 rounded-full px-3 py-1 text-xs font-bold ${a.badge}`}>
+              Bloco {blockNumber}
+            </span>
+          )
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary with accent border -->
+  <div class={`border-l-4 ${a.border} ${a.bg} pl-5 py-3 mb-6 rounded-r-lg`}>
+    <p class="text-base text-slate-600 dark:text-slate-400 italic leading-relaxed">
+      {summary}
+    </p>
+  </div>
+
+  <!-- Key Points -->
+  {
+    keyPoints.length > 0 && (
+      <div>
+        <h4 class="text-sm font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">
+          Pontos-chave deste bloco
+        </h4>
+        <ul class="space-y-3 stagger">
+          {
+            keyPoints.map((point) => (
+              <li class="flex items-start gap-3 animate-on-scroll">
+                <svg
+                  class={`w-5 h-5 mt-0.5 flex-shrink-0 ${a.text}`}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                <span class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                  {point}
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    )
+  }
+</div>

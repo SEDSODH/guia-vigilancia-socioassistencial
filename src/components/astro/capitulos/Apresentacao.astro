@@ -1,0 +1,71 @@
+---
+import SectionHeader from '@/components/astro/layout/SectionHeader.astro'
+import Timeline, { type TimelineItem } from '@/components/astro/content/Timeline.astro'
+import InfoCard from '@/components/astro/content/InfoCard.astro'
+import AlertBox from '@/components/astro/content/AlertBox.astro'
+
+const roadmapItems: TimelineItem[] = [
+  { title: 'Bloco 1 — Fundamentação', description: 'Base normativa e conceitos fundamentais da Vigilância Socioassistencial', variant: 'purple' },
+  { title: 'Bloco 2 — Institucionalização', description: 'Formalização, portaria, resolução CMAS e estruturação da equipe', variant: 'blue' },
+  { title: 'Bloco 3 — Disseminação e Planejamento', description: 'Produção e disseminação de informações e apoio ao planejamento municipal', variant: 'green' },
+  { title: 'Bloco 4 — Consolidação', description: 'Consolidação da Vigilância como função permanente da gestão municipal', variant: 'green' },
+]
+---
+<section id="apresentacao" class="animate-on-scroll bg-white dark:bg-slate-800 shadow-xl rounded-2xl p-12 md:p-16 print:shadow-none print:rounded-none">
+  <SectionHeader title="1. Apresentação" />
+
+  <div class="prose max-w-none text-slate-700 dark:text-slate-300 space-y-6 text-lg leading-relaxed">
+    <p>A Vigilância Socioassistencial constitui uma das funções da Política de Assistência Social, ao lado da <strong>Proteção Social</strong> e da <strong>Defesa de Direitos</strong>, conforme previsto na Lei Orgânica da Assistência Social (LOAS), na Política Nacional de Assistência Social (PNAS) e na Norma Operacional Básica do SUAS (NOB/SUAS 2012).</p>
+    <p>Sua finalidade é <strong>produzir, sistematizar, analisar e disseminar informações territorializadas</strong> sobre situações de vulnerabilidade e risco social, bem como sobre a oferta dos serviços, programas, projetos e benefícios socioassistenciais, subsidiando o planejamento, a gestão e a execução das ações do Sistema Único de Assistência Social (SUAS).</p>
+    <p>Este Guia apresenta um <strong>roteiro prático</strong> para apoiar os municípios fluminenses na implantação da Vigilância Socioassistencial de maneira formal na Gestão do SUAS. Organizado em 6 etapas distribuídas em 4 blocos temáticos, o documento percorre desde a fundamentação normativa até a consolidação da Vigilância como função permanente da política municipal.</p>
+  </div>
+
+  <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mt-10 mb-6">Roteiro do Guia</h3>
+  <Timeline items={roadmapItems} class="mb-10" />
+
+  <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mt-10 mb-6">Para quem é este Guia</h3>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+    <InfoCard title="Gestores" accent="blue">
+      <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+        <li>Secretários, Subsecretários e Diretores municipais</li>
+        <li>Coordenadores da Gestão do SUAS</li>
+        <li>Responsáveis pelo planejamento e execução orçamentária</li>
+      </ul>
+    </InfoCard>
+    <InfoCard title="Técnicos" accent="purple">
+      <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+        <li>Equipes da Vigilância Socioassistencial</li>
+        <li>Técnicos do CRAS, CREAS e Cadastro Único</li>
+        <li>Profissionais da rede socioassistencial</li>
+      </ul>
+    </InfoCard>
+    <InfoCard title="Conselheiros" accent="green">
+      <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+        <li>Conselheiros Municipais de Assistência Social (CMAS)</li>
+        <li>Entidades da sociedade civil parceiras do SUAS</li>
+        <li>Controle social e fiscalização da política</li>
+      </ul>
+    </InfoCard>
+  </div>
+
+  <AlertBox variant="success" title="Objetivos deste Guia">
+    <ol class="list-none space-y-3">
+      <li class="flex items-start gap-3">
+        <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span><strong class="text-green-900 dark:text-green-200">1.</strong> Apresentar um roteiro estruturado para a implantação da Vigilância Socioassistencial</span>
+      </li>
+      <li class="flex items-start gap-3">
+        <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span><strong class="text-green-900 dark:text-green-200">2.</strong> Oferecer modelos de Portaria e Resolução do CMAS prontos para uso</span>
+      </li>
+      <li class="flex items-start gap-3">
+        <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span><strong class="text-green-900 dark:text-green-200">3.</strong> Orientar a estruturação da equipe e a definição de competências</span>
+      </li>
+      <li class="flex items-start gap-3">
+        <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span><strong class="text-green-900 dark:text-green-200">4.</strong> Fortalecer a disseminação de informações e a integração da Vigilância ao planejamento municipal</span>
+      </li>
+    </ol>
+  </AlertBox>
+</section>

@@ -1,0 +1,912 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.75rem;
+    /* Institucional colors - light mode */
+    --institucional-blue: 209 100% 27%;
+    --institucional-blue-foreground: 0 0% 100%;
+    --institucional-lightBlue: 210 100% 95%;
+    --institucional-lightBlue-foreground: 209 100% 27%;
+    --institucional-green: 146 60% 30%;
+    --institucional-green-foreground: 0 0% 100%;
+    --institucional-lightGreen: 120 60% 94%;
+    --institucional-lightGreen-foreground: 146 60% 30%;
+  }
+
+  .dark {
+    /* Dark mode - melhor contraste com fundo slate-900 (não slate-950) */
+    --background: 217.2 33% 9%;
+    --foreground: 210 40% 98%;
+    --card: 217.2 33% 9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 217.2 33% 9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 217.2 33% 9%;
+    --secondary: 217.2 24% 17%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 24% 17%;
+    --muted-foreground: 215 20.2% 65%;
+    --accent: 217.2 24% 17%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 24% 17%;
+    --input: 217.2 24% 17%;
+    --ring: 210 40% 98%;
+    /* Institucional colors - dark mode (cores mais vibrantes para contraste) */
+    --institucional-blue: 210 100% 60%;
+    --institucional-blue-foreground: 0 0% 100%;
+    --institucional-lightBlue: 217 33% 17%;
+    --institucional-lightBlue-foreground: 210 85% 75%;
+    --institucional-green: 146 60% 45%;
+    --institucional-green-foreground: 0 0% 100%;
+    --institucional-lightGreen: 120 30% 15%;
+    --institucional-lightGreen-foreground: 146 60% 60%;
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     BLOCK ACCENT COLOR VARIABLES — Dynamic per [data-color-blind]
+     ══════════════════════════════════════════════════════════════ */
+  :root,
+  .light {
+    --block-gestao:          209 100% 27%;   /* #004b87 institucional-blue */
+    --block-gestao-light:    210 100% 95%;   /* institucional-lightBlue */
+    --block-gestao-text:     209 100% 27%;
+    --block-planejamento:    146 60% 30%;    /* #009b3a institucional-green */
+    --block-planejamento-light: 120 60% 94%; /* institucional-lightGreen */
+    --block-planejamento-text:  146 60% 30%;
+    --block-reprogramacao:   189 94% 37%;    /* #0891b2 cyan-600 */
+    --block-reprogramacao-light: 183 100% 96%; /* cyan-50 */
+    --block-reprogramacao-text:  189 94% 37%;
+    --block-controle:        335 78% 42%;    /* #be185d pink-700 */
+    --block-controle-light:  330 81% 96%;    /* pink-50 */
+    --block-controle-text:   335 78% 42%;
+  }
+
+  .dark {
+    --block-gestao:          210 100% 60%;   /* bright blue */
+    --block-gestao-light:    217 33% 17%;    /* dark blue bg */
+    --block-gestao-text:     210 85% 75%;
+    --block-planejamento:    146 60% 45%;    /* bright green */
+    --block-planejamento-light: 120 30% 15%;
+    --block-planejamento-text:  146 60% 60%;
+    --block-reprogramacao:   189 94% 50%;    /* cyan-400 */
+    --block-reprogramacao-light: 189 40% 12%;
+    --block-reprogramacao-text:  189 94% 55%;
+    --block-controle:        335 78% 55%;    /* pink-400 */
+    --block-controle-light:  335 40% 12%;
+    --block-controle-text:   335 78% 60%;
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     COLOR-BLIND OVERRIDES — Swap problemático por perfil
+     ══════════════════════════════════════════════════════════════ */
+
+  /* ─── DEUTERANOPIA (green-red blindness, ~5% of males) ─── */
+  [data-color-blind="deuteranopia"] {
+    --block-planejamento:       221 83% 53%;   /* blue-600 */
+    --block-planejamento-light: 214 100% 97%;  /* blue-50 */
+    --block-planejamento-text:  221 83% 53%;
+  }
+  .dark[data-color-blind="deuteranopia"],
+  [data-color-blind="deuteranopia"] .dark {
+    --block-planejamento:       217 91% 70%;   /* blue-400 */
+    --block-planejamento-light: 221 50% 15%;
+    --block-planejamento-text:  217 91% 70%;
+  }
+
+  /* ─── PROTANOPIA (red blindness, ~1% of males) ─── */
+  [data-color-blind="protanopia"] {
+    --block-planejamento:       221 83% 53%;
+    --block-planejamento-light: 214 100% 97%;
+    --block-planejamento-text:  221 83% 53%;
+    --block-controle:           271 91% 65%;
+    --block-controle-light:     270 100% 98%;
+    --block-controle-text:      271 91% 65%;
+  }
+  .dark[data-color-blind="protanopia"],
+  [data-color-blind="protanopia"] .dark {
+    --block-planejamento:       217 91% 70%;
+    --block-planejamento-light: 221 50% 15%;
+    --block-planejamento-text:  217 91% 70%;
+    --block-controle:           271 91% 75%;
+    --block-controle-light:     271 50% 15%;
+    --block-controle-text:      271 91% 75%;
+  }
+
+  /* ─── TRITANOPIA (blue-yellow blindness, rare) ─── */
+  [data-color-blind="tritanopia"] {
+    --block-gestao:             173 80% 36%;   /* teal-600 */
+    --block-gestao-light:       166 76% 97%;   /* teal-50 */
+    --block-gestao-text:        173 80% 36%;
+    --block-reprogramacao:      142 76% 36%;   /* green-600 */
+    --block-reprogramacao-light: 138 76% 97%;  /* green-50 */
+    --block-reprogramacao-text: 142 76% 36%;
+  }
+  .dark[data-color-blind="tritanopia"],
+  [data-color-blind="tritanopia"] .dark {
+    --block-gestao:             172 66% 50%;   /* teal-400 */
+    --block-gestao-light:       173 50% 15%;
+    --block-gestao-text:        172 66% 50%;
+    --block-reprogramacao:      142 71% 50%;   /* green-400 */
+    --block-reprogramacao-light: 142 40% 12%;
+    --block-reprogramacao-text: 142 71% 50%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  * {
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-slate-100 text-slate-800 font-sans antialiased;
+  }
+}
+
+@layer components {
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .animate-on-scroll.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .animate-scale {
+    opacity: 0;
+    transform: scale(0.92);
+    transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .animate-scale.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .animate-slide-left {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .animate-slide-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .animate-slide-right {
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+                transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .animate-slide-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .stagger > *:nth-child(1) { transition-delay: 0ms; }
+  .stagger > *:nth-child(2) { transition-delay: 80ms; }
+  .stagger > *:nth-child(3) { transition-delay: 160ms; }
+  .stagger > *:nth-child(4) { transition-delay: 240ms; }
+  .stagger > *:nth-child(5) { transition-delay: 320ms; }
+  .stagger > *:nth-child(6) { transition-delay: 400ms; }
+  .stagger > *:nth-child(7) { transition-delay: 480ms; }
+  .stagger > *:nth-child(8) { transition-delay: 560ms; }
+
+  .stagger-alt > *:nth-child(odd) {
+    transition-delay: 0ms;
+  }
+  .stagger-alt > *:nth-child(even) {
+    transition-delay: 150ms;
+  }
+
+  .animate-slide-down {
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: slideDown 0.5s ease-out forwards;
+    animation-delay: var(--delay, 0ms);
+  }
+}
+
+@keyframes slideDown {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+
+.slider-thumb::-webkit-slider-runnable-track,
+.slider-thumb::-moz-range-track {
+  height: 8px;
+  border-radius: 9999px;
+  background: hsl(var(--muted));
+}
+
+.slider-thumb::-webkit-slider-thumb,
+.slider-thumb::-moz-range-thumb,
+.slider-thumb::-ms-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: hsl(var(--institucional-blue));
+  cursor: pointer;
+  border: 2px solid hsl(var(--institucional-blue-foreground));
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  margin-top: -7px;
+}
+
+.slider-thumb::-ms-track {
+  height: 8px;
+  border-radius: 9999px;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+
+.slider-thumb::-ms-fill-lower {
+  background: hsl(var(--institucional-blue));
+  border-radius: 9999px;
+}
+
+.slider-thumb::-ms-fill-upper {
+  background: hsl(var(--muted));
+  border-radius: 9999px;
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 1.5cm 2cm;
+    @bottom-left {
+      content: "Guia de Implantação da Vigilância Socioassistencial";
+      font-family: 'Inter', sans-serif;
+      font-size: 7.5pt;
+      color: #94a3b8;
+    }
+    @bottom-right {
+      content: "p. " counter(page);
+      font-family: 'Inter', sans-serif;
+      font-size: 7.5pt;
+      color: #94a3b8;
+    }
+  }
+
+  @page :first {
+    @bottom-left { content: none; }
+    @bottom-right { content: none; }
+  }
+
+  /* ─── Reset geral para impressão ─── */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  html, body {
+    background: white !important;
+    color: #1e293b !important;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+
+  /* ─── Esconder elementos interativos ─── */
+  .no-print,
+  #sidebar-root, #sidebar-aside,
+  #sidebar-open-btn, #sidebar-close-btn,
+  #sidebar-overlay, #sidebar-bottom-bar,
+  #theme-toggle, #print-btn, #reading-mode-toggle,
+  #top-progress, #toggle-all-blocks,
+  .fixed, .sticky {
+    display: none !important;
+  }
+
+  /* ─── Desativar animações ─── */
+  .animate-on-scroll,
+  .animate-scale,
+  .animate-slide-left,
+  .animate-slide-right,
+  .animate-slide-down {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+  .stagger > * { transition-delay: 0ms !important; }
+
+  /* ─── Sombras removidas; border-l-4 preservadas ─── */
+  .shadow-lg, .shadow-md, .shadow-xl, .shadow-sm, .shadow-2xl {
+    box-shadow: none !important;
+  }
+
+  .hover\:shadow-2xl:hover {
+    box-shadow: none !important;
+  }
+
+  section[class*="shadow-"]:not([class*="border-l-4"]),
+  div[class*="shadow-"]:not([class*="border-l-4"]) {
+    border: 0.5pt solid #d1d5db !important;
+  }
+
+  [class*="border-l-4"] {
+    border-left-width: 4px !important;
+    border-left-style: solid !important;
+    border-right: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+  }
+
+  /* ─── Page breaks ─── */
+  #capa { break-after: page; }
+  #expediente { break-before: page; }
+  #sumario { break-before: page; break-after: page; }
+  #apresentacao { break-before: page; }
+  #contra-capa { break-before: page; }
+
+  /* ─── Page breaks at block boundaries only ─── */
+  [data-block-group] { break-before: page; }
+  [data-block-group]:first-of-type { break-before: auto; }
+
+  /* Allow sections to flow naturally across pages */
+  section {
+    break-inside: auto;
+  }
+
+  /* Orphan/widow control — evita linhas soltas no topo/base da página */
+  p, li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Keep headers glued to their content */
+  h2, h3, h4 {
+    break-after: avoid;
+  }
+
+  /* Protect compact elements from being split */
+  table,
+  .no-break-inside {
+    break-inside: avoid-page;
+  }
+  .block-section-separator { break-inside: avoid; }
+  img { max-width: 100% !important; }
+  a { text-decoration: none; color: inherit; }
+
+  /* ─── Dark mode → forçar fundo claro ─── */
+  body.dark,
+  body.dark * {
+    background-color: white !important;
+    color: #1e293b !important;
+  }
+  [class*="dark:"] {
+    background-color: white !important;
+    color: #1e293b !important;
+  }
+
+  /* ─── QR Code Placeholder (rodapé do conteúdo) ─── */
+  .qr-code {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 0;
+    margin-top: 1rem;
+    border-top: 0.5pt solid #e2e8f0;
+  }
+
+  .qr-code::after {
+    content: "Acesse a vers\u00e3o online: https://guia-vigilancia.gofsuasrj.org";
+    font-size: 7.5pt;
+    color: #475569;
+  }
+
+  /* ─── Ajustes de layout para A4 ─── */
+  #main-content {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  section {
+    padding: 0.75rem 1rem !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  footer { break-inside: avoid; }
+}
+
+/* ─── Indicadores visuais de quebra de página (apenas tela) ─── */
+@media screen {
+  [data-block-group] {
+    position: relative;
+    padding-top: 2.5rem;
+    margin-top: 1rem;
+  }
+
+  [data-block-group]::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 0;
+    border-top: 2px dashed #cbd5e1;
+  }
+
+  [data-block-group]::after {
+    content: "— Quebra de página —";
+    position: absolute;
+    top: -0.65rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #f1f5f9;
+    padding: 0 1rem;
+    font-size: 0.65rem;
+    font-weight: 500;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  /* First block group — no indicator */
+  [data-block-group]:first-of-type {
+    padding-top: 0;
+    margin-top: 0;
+  }
+
+  [data-block-group]:first-of-type::before,
+  [data-block-group]:first-of-type::after {
+    content: none;
+  }
+
+  /* Dark mode */
+  .dark [data-block-group]::before {
+    border-color: #475569;
+  }
+
+  .dark [data-block-group]::after {
+    background: #0f172a;
+    color: #64748b;
+  }
+}
+
+/* ─── Reading Mode: Book Layout ─── */
+@media screen {
+  body[data-reading-mode="book"] {
+    overflow: hidden;
+    height: 100vh;
+  }
+
+  /* Fix text selection in book mode */
+  body[data-reading-mode="book"] .stf__parent {
+    touch-action: auto !important;
+  }
+
+  body[data-reading-mode="book"] .stf__block {
+    touch-action: auto !important;
+  }
+
+  /* Hide scroll-mode UI elements */
+  [data-reading-mode="book"] #sidebar-root,
+  [data-reading-mode="book"] #top-progress,
+  [data-reading-mode="book"] #toggle-all-blocks,
+  [data-reading-mode="book"] [data-block-group]::before,
+  [data-reading-mode="book"] [data-block-group]::after,
+  [data-reading-mode="book"] .scroll-to-top,
+  [data-reading-mode="book"] .block-indicator {
+    display: none !important;
+  }
+
+  /* Disable scroll-mode animations */
+  [data-reading-mode="book"] .animate-on-scroll,
+  [data-reading-mode="book"] .animate-scale,
+  [data-reading-mode="book"] .animate-slide-left,
+  [data-reading-mode="book"] .animate-slide-right,
+  [data-reading-mode="book"] .animate-slide-down {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  [data-reading-mode="book"] .stagger > * {
+    transition-delay: 0ms !important;
+  }
+}
+
+/* ─── Immersive Book Backdrop ─── */
+.book-backdrop {
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(241, 245, 249, 0.6) 0%, rgba(203, 213, 225, 0.85) 60%, rgba(148, 163, 184, 0.95) 100%);
+}
+
+.dark .book-backdrop {
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.9) 60%, rgba(2, 6, 23, 0.98) 100%);
+}
+
+/* ─── Book Enter / Exit Animation ─── */
+@keyframes book-enter-backdrop {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes book-exit-backdrop {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes book-enter-scale {
+  from { opacity: 0; transform: scale(0.93) translateY(12px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes book-exit-scale {
+  from { opacity: 1; transform: scale(1) translateY(0); }
+  to   { opacity: 0; transform: scale(0.93) translateY(12px); }
+}
+
+.book-enter-active {
+  animation: book-enter-backdrop 400ms ease-out forwards;
+}
+
+.book-enter-active .book-scale-target {
+  animation: book-enter-scale 400ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.book-exit-active {
+  animation: book-exit-backdrop 350ms ease-in forwards;
+}
+
+.book-exit-active .book-scale-target {
+  animation: book-exit-scale 350ms ease-in forwards;
+}
+
+/* ─── Book Page Content — Light Normalization ─── */
+/* Instead of stripping all classes, we scope-normalize inside flipbook pages.
+   Sections keep their internal layout; only the "card wrapper" look is removed. */
+
+.book-page-content {
+  font-variant-numeric: oldstyle-nums proportional-nums;
+  touch-action: auto;
+}
+
+.book-page-content section,
+.book-page-content > div[class] {
+  box-shadow: none !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  margin-bottom: 0 !important;
+  padding: 0 !important;
+}
+
+/* Re-apply background for sections that have their own bg class */
+.book-page-content section[class*="bg-"],
+.book-page-content > div[class*="bg-"] {
+  background: revert !important;
+}
+
+/* Keep inner cards and colored blocks styled */
+.book-page-content [class*="bg-white"],
+.book-page-content [class*="bg-slate-50"],
+.book-page-content [class*="bg-institucional-"],
+.book-page-content [class*="bg-purple-"],
+.book-page-content [class*="bg-amber-"],
+.book-page-content [class*="bg-red-"],
+.book-page-content [class*="bg-cyan-"],
+.book-page-content [class*="bg-pink-"],
+.book-page-content [class*="bg-blue-"],
+.book-page-content [class*="bg-green-"],
+.book-page-content [class*="bg-orange-"],
+.book-page-content [class*="bg-yellow-"] {
+  border-radius: 0.375rem !important;
+  padding: 0.75rem !important;
+  margin: 0.5rem 0 !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04) !important;
+}
+
+/* Dividers / accent lines */
+.book-page-content [class*="h-1 w-"],
+.book-page-content [class*="h-1.5 w-"] {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+/* Tables inside book pages */
+.book-page-content table {
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+
+.book-page-content th {
+  font-size: 0.65rem;
+  padding: 0.35rem 0.5rem !important;
+}
+
+.book-page-content td {
+  padding: 0.3rem 0.5rem !important;
+}
+
+.book-page-content .overflow-x-auto {
+  overflow-x: auto !important;
+}
+
+/* Compact spacing for grid/flex gaps */
+.book-page-content .gap-4,
+.book-page-content .gap-6,
+.book-page-content .gap-8 {
+  gap: 0.5rem !important;
+}
+
+.book-page-content .space-y-4 > :not([hidden]) ~ :not([hidden]),
+.book-page-content .space-y-6 > :not([hidden]) ~ :not([hidden]),
+.book-page-content .space-y-8 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse))) !important;
+}
+
+/* Large margins reduced */
+.book-page-content [class*="mb-16"],
+.book-page-content [class*="mb-10"],
+.book-page-content [class*="mt-16"],
+.book-page-content [class*="mt-24"] {
+  margin-top: 0.75rem !important;
+  margin-bottom: 0.75rem !important;
+}
+
+/* Headings inside book pages */
+.book-page-content h2 {
+  font-size: 1.05rem !important;
+  line-height: 1.3 !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.book-page-content h3 {
+  font-size: 0.9rem !important;
+  line-height: 1.3 !important;
+  margin-bottom: 0.35rem !important;
+}
+
+.book-page-content h4 {
+  font-size: 0.8rem !important;
+  line-height: 1.3 !important;
+}
+
+/* Paragraphs */
+.book-page-content p {
+  margin-bottom: 0.4rem !important;
+  line-height: 1.55 !important;
+}
+
+/* Lists */
+.book-page-content ul,
+.book-page-content ol {
+  padding-left: 1rem !important;
+  margin-bottom: 0.4rem !important;
+}
+
+.book-page-content li {
+  margin-bottom: 0.15rem !important;
+}
+
+/* Images */
+.book-page-content img {
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+/* Border-left accents preserved but subdued */
+.book-page-content [class*="border-l-4"] {
+  border-left-width: 3px !important;
+  border-left-style: solid !important;
+  border-right: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  padding-left: 0.75rem !important;
+}
+
+/* ─── Book Typography Variants ─── */
+.book-font-size-sm .book-page-content {
+  font-size: 0.8125rem;
+}
+
+.book-font-size-md .book-page-content {
+  font-size: 0.9375rem;
+}
+
+.book-font-size-lg .book-page-content {
+  font-size: 1.0625rem;
+}
+
+.book-font-serif .book-page-content {
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+.book-font-serif .book-page-content h1,
+.book-font-serif .book-page-content h2,
+.book-font-serif .book-page-content h3,
+.book-font-serif .book-page-content h4 {
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+/* ─── Book Mode Responsive ─── */
+/* Tablets and below: force single-page portrait */
+@media (max-width: 768px) {
+  .book-backdrop {
+    background:
+      radial-gradient(ellipse at 50% 40%, rgba(241, 245, 249, 0.5) 0%, rgba(203, 213, 225, 0.9) 100%);
+  }
+
+  .dark .book-backdrop {
+    background:
+      radial-gradient(ellipse at 50% 40%, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.95) 100%);
+  }
+
+  .book-page-content h2 {
+    font-size: 0.95rem !important;
+  }
+
+  .book-page-content h3 {
+    font-size: 0.825rem !important;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .book-page-content {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  .book-page-content table {
+    font-size: 0.6rem;
+  }
+
+  .book-page-content th,
+  .book-page-content td {
+    padding: 0.2rem 0.3rem !important;
+  }
+}
+
+/* ─── Book Keyboard Hint Toast ─── */
+@keyframes book-hint-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes book-hint-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(8px); }
+}
+
+.book-keyboard-hint {
+  animation: book-hint-in 300ms ease-out forwards;
+}
+
+.book-keyboard-hint.hiding {
+  animation: book-hint-out 400ms ease-in forwards;
+}
+
+/* ─── Welcome Modal Animations ─── */
+@keyframes welcome-modal-in {
+  from { opacity: 0; transform: scale(0.95) translateY(16px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes welcome-modal-out {
+  from { opacity: 1; transform: scale(1) translateY(0); }
+  to   { opacity: 0; transform: scale(0.95) translateY(8px); }
+}
+
+.welcome-modal-panel {
+  animation: welcome-modal-in 350ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.welcome-modal-panel.closing {
+  animation: welcome-modal-out 250ms ease-in forwards;
+}
+
+/* ─── Scrollbar temática ─── */
+.styled-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(209, 100%, 27%) hsl(210, 40%, 96%);
+}
+
+.styled-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.styled-scrollbar::-webkit-scrollbar-track {
+  background: hsl(210, 40%, 96%);
+  border-radius: 8px;
+}
+
+.styled-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(209, 100%, 27%);
+  border-radius: 8px;
+}
+
+.styled-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(209, 100%, 22%);
+}
+
+.dark .styled-scrollbar {
+  scrollbar-color: hsl(217, 24%, 27%) hsl(217, 24%, 12%);
+}
+
+.dark .styled-scrollbar::-webkit-scrollbar-track {
+  background: hsl(217, 24%, 12%);
+}
+
+.dark .styled-scrollbar::-webkit-scrollbar-thumb {
+  background: hsl(217, 24%, 27%);
+}
+
+.dark .styled-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: hsl(217, 24%, 35%);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   COLOR-BLIND MODE — Dot shape differentiation
+   Transforma bolinhas coloridas em formas geométricas distintas
+   ══════════════════════════════════════════════════════════════ */
+[data-color-blind] .block-dot { border-radius: 0; }
+[data-color-blind] .block-dot-gestao { clip-path: circle(50%); }
+[data-color-blind] .block-dot-planejamento { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+[data-color-blind] .block-dot-reprogramacao { border-radius: 0; }
+[data-color-blind] .block-dot-controle { clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); }

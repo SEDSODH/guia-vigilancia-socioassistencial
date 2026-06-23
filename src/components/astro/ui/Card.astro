@@ -1,0 +1,20 @@
+---
+export interface Props {
+  variant?: 'default' | 'raised' | 'bordered' | 'glass' | 'flat'
+  class?: string
+}
+
+const { variant = 'default', class: className } = Astro.props
+
+const variants: Record<string, string> = {
+  default: 'bg-white dark:bg-slate-800 shadow-xl rounded-2xl border border-slate-100 dark:border-slate-700',
+  raised: 'bg-white dark:bg-slate-800 shadow-2xl rounded-2xl border border-slate-100 dark:border-slate-700',
+  bordered: 'bg-white dark:bg-slate-800 shadow-sm rounded-2xl border-2 border-slate-200 dark:border-slate-600',
+  glass: 'bg-white/70 dark:bg-slate-800/70 backdrop-blur-xl rounded-2xl border border-white/30 dark:border-slate-700/30 shadow-lg',
+  flat: 'bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700',
+}
+---
+
+<div class={`overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-0.5 ${variants[variant]} ${className ?? ''}`}>
+  <slot />
+</div>

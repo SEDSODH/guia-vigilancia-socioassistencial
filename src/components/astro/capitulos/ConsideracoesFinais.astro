@@ -1,0 +1,80 @@
+---
+import SectionHeader from '@/components/astro/layout/SectionHeader.astro'
+import Timeline from '@/components/astro/content/Timeline.astro'
+import type { TimelineItem } from '@/components/astro/content/Timeline.astro'
+import InfoCard from '@/components/astro/content/InfoCard.astro'
+import AlertBox from '@/components/astro/content/AlertBox.astro'
+
+const jornada: TimelineItem[] = [
+  { title: 'Capa', description: 'Abertura do guia de implantação da Vigilância Socioassistencial', variant: 'default' },
+  { title: 'Expediente', description: 'Informações institucionais e créditos do guia', variant: 'default' },
+  { title: 'Sumário', description: 'Visão geral dos blocos temáticos', variant: 'default' },
+  { title: 'Apresentação', description: 'Contextualização e objetivos do guia', variant: 'default' },
+  { title: 'Bloco 1 — Fundamentação', description: 'Base normativa e conceitual da Vigilância no SUAS', variant: 'purple' },
+  { title: 'Bloco 2 — Institucionalização', description: 'Formalização, portaria, resolução CMAS e estruturação da equipe', variant: 'blue' },
+  { title: 'Bloco 3 — Disseminação e Planejamento', description: 'Produção de informações e apoio ao planejamento municipal', variant: 'green' },
+  { title: 'Bloco 4 — Consolidação', description: 'Consolidação da Vigilância Socioassistencial no município', variant: 'purple' },
+  { title: 'Considerações Finais', description: 'Síntese conclusiva e encaminhamentos', variant: 'green' },
+  { title: 'Referências', description: 'Fontes normativas e bibliográficas consultadas', variant: 'default' },
+  { title: 'Perguntas Frequentes', description: 'Esclarecimento de dúvidas comuns sobre a implantação', variant: 'default' },
+  { title: '10 Regras de Ouro', description: 'Síntese prática dos princípios essenciais da Vigilância', variant: 'purple' },
+  { title: 'Contra-Capa', description: 'Encerramento do guia', variant: 'default' },
+]
+---
+<div id="consideracoes" class="mb-16 animate-on-scroll">
+  <SectionHeader title="Considerações Finais" />
+
+  <div class="prose max-w-none text-slate-700 dark:text-slate-300 text-base leading-relaxed">
+    <p>A implantação da Vigilância Socioassistencial nos municípios é um <strong>processo contínuo de construção</strong>, que exige planejamento, investimento em equipe, integração de fontes de informação e articulação permanente com a rede socioassistencial e o controle social.</p>
+  </div>
+
+  <!-- TIMELINE: Jornada do leitor pelos 16 capítulos -->
+  <div class="mt-10">
+    <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-6 flex items-center gap-2">
+      <span class="w-1 h-6 bg-institucional-blue rounded-full inline-block" />
+      Sua Jornada de Aprendizagem
+    </h3>
+    <Timeline items={jornada} />
+  </div>
+
+  <!-- INFOCARDS: 3 principais aprendizados -->
+  <div class="mt-12">
+    <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-6 flex items-center gap-2">
+      <span class="w-1 h-6 bg-institucional-green rounded-full inline-block" />
+      Principais Aprendizados
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <InfoCard title="Vigilância como Processo Contínuo" accent="blue">
+        <p class="text-sm text-slate-600 dark:text-slate-400">Mais do que cumprir uma exigência normativa, a Vigilância Socioassistencial representa uma <strong>oportunidade estratégica</strong> para qualificar a Política de Assistência Social, tornando-a mais eficiente, equânime e atenta às necessidades reais da população.</p>
+      </InfoCard>
+      <InfoCard title="Informação como Evidência para a Decisão" accent="green">
+        <p class="text-sm text-slate-600 dark:text-slate-400">A informação, quando produzida com qualidade, organizada de forma sistemática e analisada com base em critérios técnicos, transforma-se em <strong>evidência para a decisão</strong>. Cabe à Vigilância Socioassistencial ocupar esse papel de forma permanente e comprometida com o interesse público.</p>
+      </InfoCard>
+      <InfoCard title="Autonomia Municipal" accent="purple">
+        <p class="text-sm text-slate-600 dark:text-slate-400">Este Guia busca oferecer um <strong>ponto de partida organizado</strong> para que cada município, respeitando suas particularidades, possa construir sua própria trajetória de consolidação da Vigilância Socioassistencial.</p>
+      </InfoCard>
+    </div>
+  </div>
+
+  <!-- DESTAQUE: Citação principal preservada -->
+  <div class="bg-institucional-lightBlue p-8 rounded-xl border-l-4 border-institucional-blue my-10 shadow-sm flex items-start gap-4">
+    <p class="text-institucional-blue font-medium text-xl m-0 leading-snug">A Vigilância Socioassistencial efetivamente implantada é aquela cujas informações <strong>orientam cotidianamente</strong> o planejamento, a gestão, o monitoramento e a oferta dos serviços socioassistenciais, contribuindo para a <strong>ampliação da proteção social</strong> e da <strong>garantia de direitos</strong> da população.</p>
+  </div>
+
+  <!-- PROSE FINAL: Contato COOVIG -->
+  <div class="prose max-w-none text-slate-700 dark:text-slate-300 text-base leading-relaxed">
+    <p>A COOVIG/SEDSODH permanece à disposição dos municípios fluminenses para apoio técnico, orientação e articulação no processo de implantação e qualificação contínua da Vigilância Socioassistencial.</p>
+  </div>
+
+  <!-- ALERTBOX: Próximos passos -->
+  <div class="mt-10">
+    <AlertBox variant="success" title="Próximos Passos">
+      <ul class="list-disc list-inside space-y-1.5">
+        <li><strong>Estruturar</strong> a equipe de Vigilância Socioassistencial no município</li>
+        <li><strong>Instituir</strong> formalmente o setor por meio de portaria e resolução CMAS</li>
+        <li><strong>Produzir</strong> e disseminar informações territorializadas para a gestão do SUAS</li>
+        <li><strong>Integrar</strong> a Vigilância ao planejamento municipal e ao controle social</li>
+      </ul>
+    </AlertBox>
+  </div>
+</div>

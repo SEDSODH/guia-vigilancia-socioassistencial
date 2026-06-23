@@ -1,0 +1,107 @@
+---
+import SectionHeader from '@/components/astro/layout/SectionHeader.astro'
+import { portariaModelo } from '@/data/portariaModelo'
+import AlertBox from '@/components/astro/content/AlertBox.astro'
+import ProcessStepper from '@/components/astro/content/ProcessStepper.astro'
+import ComparisonTable from '@/components/astro/content/ComparisonTable.astro'
+---
+<div id="modelo-portaria" class="mb-16 animate-on-scroll">
+  <SectionHeader title="5. Modelo de Portaria" subtitle="Instrumento administrativo para formalização da Vigilância" />
+
+  <div class="mt-6">
+    <AlertBox variant="info" title="Quando usar este modelo">
+      <p>Utilize este modelo de Portaria quando for necessário <strong>instituir formalmente a Vigilância Socioassistencial</strong> no âmbito da Secretaria Municipal de Assistência Social e designar o(s) responsável(eis) técnico(a)s por sua coordenação. A Portaria é o instrumento adequado para atos administrativos internos do Poder Executivo Municipal, com efeitos vinculantes no âmbito da Secretaria.</p>
+      <p>Este modelo atende aos requisitos mínimos estabelecidos pela <strong>NOB/SUAS 2012</strong> (arts. 87 a 94) e pode ser adaptado à realidade local, mantendo a estrutura essencial. Recomenda-se sua utilização como primeiro passo do processo de institucionalização da Vigilância no município.</p>
+    </AlertBox>
+  </div>
+
+  <div class="mt-8">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-4">Etapas de Publicação da Portaria</h3>
+    <ProcessStepper
+      steps={[
+        { number: 1, title: 'Minuta', description: 'Elaboração do texto da Portaria com todos os campos preenchidos e fundamentação legal.', accent: 'blue' },
+        { number: 2, title: 'Análise Jurídica', description: 'Envio à assessoria jurídica municipal para parecer de legalidade e conformidade normativa.', accent: 'slate' },
+        { number: 3, title: 'Aprovação', description: 'Aprovação do texto final pelo(a) Secretário(a) Municipal de Assistência Social.', accent: 'blue' },
+        { number: 4, title: 'Numeração', description: 'Registro e numeração oficial da Portaria no protocolo da Secretaria.', accent: 'slate' },
+        { number: 5, title: 'Publicação', description: 'Publicação no Diário Oficial do Município (DOM) para produção de efeitos legais.', accent: 'green' },
+      ]}
+    />
+  </div>
+
+  <div class="mt-8">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-4">Portaria vs Resolução vs Decreto</h3>
+    <ComparisonTable
+      rows={[
+        { item: 'Quem expede', status: 'pode', condition: 'Portaria: Secretário(a) Municipal | Resolução: CMAS | Decreto: Prefeito(a)' },
+        { item: 'Quando utilizar', status: 'condicao', condition: 'Portaria: atos internos da gestão | Resolução: normas e deliberações do Conselho | Decreto: atos do Chefe do Executivo' },
+        { item: 'Natureza vinculante', status: 'pode', condition: 'Todos vinculam nos respectivos âmbitos de competência' },
+        { item: 'Publicação', status: 'pode', condition: 'Todos exigem publicação no Diário Oficial do Município (DOM)' },
+      ]}
+    />
+  </div>
+
+  <div class="prose max-w-none text-slate-700 dark:text-slate-300 space-y-4 text-base leading-relaxed mb-6">
+    <p>A Portaria é o instrumento administrativo por meio do qual o(a) Secretário(a) Municipal de Assistência Social <strong>institui formalmente a Vigilância Socioassistencial</strong> e designa o(s) responsável(eis) por sua coordenação. Trata-se de ato administrativo de efeitos internos, de publicação obrigatória.</p>
+    <p>O modelo a seguir pode ser <strong>adaptado à realidade do município</strong>, mantendo a estrutura mínima aqui apresentada. Os campos marcados com <code class="text-xs bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded">_________</code> devem ser preenchidos com os dados do município.</p>
+  </div>
+
+  <article class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-lg p-8 md:p-12 print:shadow-none print:border-0">
+    <header class="text-center mb-8 pb-6 border-b border-slate-200 dark:border-slate-700">
+      <h2 class="text-xl md:text-2xl font-extrabold text-slate-800 dark:text-slate-200 mb-3">
+        {portariaModelo.titulo}
+      </h2>
+      <p class="text-sm text-slate-600 dark:text-slate-400 italic">
+        {portariaModelo.ementa}
+      </p>
+    </header>
+
+    <div class="prose max-w-none text-slate-700 dark:text-slate-300 space-y-3 text-sm leading-relaxed">
+      {portariaModelo.preambulo.map((p, i) => (
+        <p class={i === 0 ? 'text-justify' : 'text-justify'}>{p}</p>
+      ))}
+
+      <p class="text-center font-bold mt-4 mb-4">{portariaModelo.resolve}</p>
+
+      {portariaModelo.artigos.map((art) => (
+        <div class="mt-5">
+          <p class="font-bold text-slate-800 dark:text-slate-200">{art.artigo}</p>
+          <p class="text-justify">{art.caput}</p>
+          {art.incisos && (
+            <ol class="list-none pl-0 mt-2 space-y-1.5">
+              {art.incisos.map((inc) => (
+                <li class="text-justify pl-6 -indent-6"><span class="font-semibold mr-1">{inc.numero} –</span>{inc.texto}</li>
+              ))}
+            </ol>
+          )}
+          {art.paragrafos && (
+            <div class="mt-2 space-y-1.5">
+              {art.paragrafos.map((pg) => (
+                <p class="text-justify">{pg}</p>
+              ))}
+            </div>
+          )}
+        </div>
+      ))}
+
+      <div class="mt-10 pt-6 border-t border-slate-200 dark:border-slate-700 text-center space-y-1">
+        <p class="font-semibold text-slate-800 dark:text-slate-200">{portariaModelo.assinatura.cargo}</p>
+        <p class="text-slate-600 dark:text-slate-400">{portariaModelo.assinatura.municipio}</p>
+        <p class="text-slate-600 dark:text-slate-400">{portariaModelo.assinatura.linhaData}</p>
+      </div>
+    </div>
+  </article>
+
+  <div class="mt-6">
+    <AlertBox variant="warning" title="Campos obrigatórios">
+      <p>Antes de publicar, verifique se todos os campos abaixo foram preenchidos:</p>
+      <ul class="list-disc list-inside space-y-1.5">
+        <li><strong>Número da Portaria</strong> — numeração sequencial do ano vigente (____/2026)</li>
+        <li><strong>Nome do Município</strong> — nas cláusulas "de" e no rodapé de assinatura</li>
+        <li><strong>Nome do(a) Secretário(a) Municipal</strong> — qualificação completa no preâmbulo</li>
+        <li><strong>Nome do(a) servidor(a) designado(a)</strong> — no Art. 4º, com nome completo</li>
+        <li><strong>Matrícula do(a) servidor(a)</strong> — número de matrícula no Art. 4º</li>
+        <li><strong>Data de publicação</strong> — no rodapé de assinatura</li>
+      </ul>
+    </AlertBox>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+---
+export interface Props {
+  title: string
+  number?: string
+  subtitle?: string
+  accent?: 'blue' | 'green' | 'purple' | 'amber' | 'red' | 'cyan' | 'pink' | 'slate'
+}
+
+const { title, number, subtitle, accent = 'blue' } = Astro.props
+
+const accentStyles: Record<string, {
+  badgeBg: string; badgeText: string; badgeBorder: string;
+  lineGradient: string;
+  iconBg: string; iconBgDark: string;
+}> = {
+  blue: { badgeBg: 'bg-institucional-lightBlue', badgeText: 'text-institucional-blue', badgeBorder: 'border-blue-200', lineGradient: 'from-institucional-blue to-blue-300', iconBg: 'bg-institucional-blue', iconBgDark: 'dark:bg-blue-800' },
+  green: { badgeBg: 'bg-institucional-lightGreen', badgeText: 'text-institucional-green', badgeBorder: 'border-green-200', lineGradient: 'from-institucional-green to-green-300', iconBg: 'bg-institucional-green', iconBgDark: 'dark:bg-green-800' },
+  purple: { badgeBg: 'bg-purple-50', badgeText: 'text-purple-600', badgeBorder: 'border-purple-200', lineGradient: 'from-purple-600 to-purple-300', iconBg: 'bg-purple-600', iconBgDark: 'dark:bg-purple-800' },
+  amber: { badgeBg: 'bg-amber-50', badgeText: 'text-amber-600', badgeBorder: 'border-amber-200', lineGradient: 'from-amber-500 to-amber-300', iconBg: 'bg-amber-500', iconBgDark: 'dark:bg-amber-700' },
+  red: { badgeBg: 'bg-red-50', badgeText: 'text-red-600', badgeBorder: 'border-red-200', lineGradient: 'from-red-500 to-red-300', iconBg: 'bg-red-500', iconBgDark: 'dark:bg-red-700' },
+  cyan: { badgeBg: 'bg-cyan-50', badgeText: 'text-cyan-600', badgeBorder: 'border-cyan-200', lineGradient: 'from-cyan-500 to-cyan-300', iconBg: 'bg-cyan-500', iconBgDark: 'dark:bg-cyan-700' },
+  pink: { badgeBg: 'bg-pink-50', badgeText: 'text-pink-600', badgeBorder: 'border-pink-200', lineGradient: 'from-pink-500 to-pink-300', iconBg: 'bg-pink-500', iconBgDark: 'dark:bg-pink-700' },
+  slate: { badgeBg: 'bg-slate-100', badgeText: 'text-slate-600', badgeBorder: 'border-slate-200', lineGradient: 'from-slate-400 to-slate-300', iconBg: 'bg-slate-400', iconBgDark: 'dark:bg-slate-600' },
+}
+
+const a = accentStyles[accent]
+
+const iconSvgs: Record<string, string> = {
+  blue: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>`,
+  green: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>`,
+  purple: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  amber: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>`,
+  red: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+  cyan: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>`,
+  pink: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3.5 h-3.5" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
+  slate: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-3.5 h-3.5" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
+}
+---
+
+<div class="group mb-10">
+  {number && (
+    <span class={`inline-block px-3 py-1 rounded-full ${a.badgeBg} ${a.badgeText} text-xs font-bold mb-3 border ${a.badgeBorder}`}>
+      {number}
+    </span>
+  )}
+  <h2 class="text-3xl md:text-4xl font-extrabold text-slate-800 dark:text-white tracking-tight flex items-center gap-3">
+    {number && (
+      <span class={`inline-flex items-center justify-center w-6 h-6 rounded-full text-white shrink-0 ${a.iconBg} ${a.iconBgDark}`} set:html={iconSvgs[accent]} />
+    )}
+    {title}
+  </h2>
+  {subtitle && (
+    <p class="mt-2 text-lg text-slate-500 dark:text-slate-400 font-medium">{subtitle}</p>
+  )}
+  <div class={`h-1 rounded-full mt-4 transition-all duration-300 ease-out bg-gradient-to-r ${a.lineGradient} group-hover:w-24 w-20`} />
+</div>

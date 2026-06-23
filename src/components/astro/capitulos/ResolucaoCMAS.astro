@@ -1,0 +1,115 @@
+---
+import SectionHeader from '@/components/astro/layout/SectionHeader.astro'
+import { resolucaoCMAS } from '@/data/resolucaoCMAS'
+import AlertBox from '@/components/astro/content/AlertBox.astro'
+import ProcessStepper from '@/components/astro/content/ProcessStepper.astro'
+import ComparisonTable from '@/components/astro/content/ComparisonTable.astro'
+---
+<div id="resolucao-cmas" class="mb-16 animate-on-scroll">
+  <SectionHeader title="6. Resolução do CMAS" subtitle="Reconhecimento e apoio do controle social à Vigilância" />
+
+  <div class="prose max-w-none text-slate-700 dark:text-slate-300 space-y-4 text-base leading-relaxed mb-6">
+    <p>Recomenda-se, adicionalmente, a elaboração de um <strong>normativo complementar</strong> na forma de <strong>Resolução do Conselho Municipal de Assistência Social (CMAS)</strong>, que disponha sobre a institucionalização da Vigilância Socioassistencial no âmbito municipal.</p>
+    <p>A aprovação da matéria pelo controle social contribui para o <strong>fortalecimento da legitimidade</strong> da área, amplia o <strong>compromisso institucional</strong> com sua implementação e favorece a <strong>continuidade das ações</strong>, mesmo diante de mudanças de gestão.</p>
+    <p>A adoção conjunta de <strong>Portaria do Órgão Gestor e Resolução do CMAS</strong> constitui uma estratégia amplamente utilizada pelos municípios para formalizar a implantação da Vigilância Socioassistencial, em consonância com as diretrizes da PNAS e da NOB/SUAS.</p>
+  </div>
+
+  <div class="mb-6">
+    <AlertBox variant="info" title="O que é a Resolução do CMAS">
+      <p class="mb-2">A Resolução do Conselho Municipal de Assistência Social (CMAS) é um ato normativo colegiado por meio do qual o controle social reconhece e apoia formalmente a institucionalização da Vigilância Socioassistencial no município. Diferentemente da Portaria do Órgão Gestor — que é um ato administrativo interno —, a Resolução representa a adesão do CMAS à estruturação da Vigilância como função estratégica do SUAS.</p>
+      <p>Trata-se de um documento de natureza política e institucional que confere legitimidade à área perante o controle social, fortalece a transparência e cria mecanismos formais de acompanhamento e fiscalização das ações de Vigilância pelo Conselho.</p>
+    </AlertBox>
+  </div>
+
+  <div class="mb-6">
+    <AlertBox variant="info" title="Por que uma Resolução do CMAS?">
+      <ul class="list-disc list-inside space-y-1.5">
+        <li>Confere legitimidade e respaldo do controle social</li>
+        <li>Compromete o município com a manutenção da área</li>
+        <li>Define atribuições de acompanhamento e fiscalização do CMAS</li>
+        <li>Favorece a continuidade administrativa em mudanças de gestão</li>
+        <li>Materializa a participação social na Política de Assistência Social</li>
+      </ul>
+    </AlertBox>
+  </div>
+
+  <div class="mb-8">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-4">Fluxo de aprovação da Resolução do CMAS</h3>
+    <ProcessStepper
+      steps={[
+        { number: 1, title: 'Minuta', description: 'Elaboração da minuta da Resolução pelo Órgão Gestor, com base no modelo de referência e nas diretrizes da Vigilância Socioassistencial.', accent: 'blue' },
+        { number: 2, title: 'Análise técnica', description: 'Análise jurídica e técnica da minuta pela assessoria do CMAS e pela Procuradoria Jurídica do município.', accent: 'slate' },
+        { number: 3, title: 'Discussão em Plenária', description: 'Apresentação da proposta na plenária do CMAS, com debate e contribuições dos conselheiros governamentais e da sociedade civil.', accent: 'blue' },
+        { number: 4, title: 'Aprovação', description: 'Deliberação e votação da matéria pelos conselheiros, com registro em ata da reunião.', accent: 'green' },
+        { number: 5, title: 'Registro', description: 'Registro formal da deliberação em ata e lavratura do texto final aprovado da Resolução.', accent: 'slate' },
+        { number: 6, title: 'Publicação', description: 'Publicação oficial no diário oficial do município e divulgação ampla para as equipes da gestão e da rede socioassistencial.', accent: 'green' },
+      ]}
+    />
+  </div>
+
+  <div class="mb-8">
+    <AlertBox variant="warning" title="Pontos críticos de negociação com o CMAS">
+      <ul class="list-disc list-inside space-y-1.5">
+        <li><strong>Atribuições de fiscalização:</strong> O CMAS pode exigir atribuições mais amplas do que as previstas na minuta — é importante delimitar o escopo de acompanhamento sem comprometer a autonomia técnica da Vigilância.</li>
+        <li><strong>Compartilhamento de dados:</strong> A Resolução pode prever acesso irrestrito do CMAS a dados sigilosos — negocie cláusulas que garantam proteção de dados pessoais e sigilo estatístico.</li>
+        <li><strong>Prazos de entrega de relatórios:</strong> Conselheiros podem solicitar relatórios em periodicidade inviável para a equipe técnica — alinhe prazos factuais com a capacidade operacional.</li>
+        <li><strong>Vinculação orçamentária:</strong> Eventuais propostas de percentual mínimo do orçamento para a Vigilância podem encontrar resistência — apresente projeções realistas de custeio.</li>
+      </ul>
+    </AlertBox>
+  </div>
+
+  <div class="mb-8">
+    <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200 mb-4">Com Resolução vs Sem Resolução</h3>
+    <ComparisonTable
+      rows={[
+        { item: 'Legitimidade institucional (com Resolução)', status: 'pode', condition: 'Ampla legitimidade com respaldo formal do controle social, fortalecendo a posição da Vigilância na estrutura municipal.' },
+        { item: 'Legitimidade institucional (sem Resolução)', status: 'limite', condition: 'Restrita à vontade discricionária do gestor, sem respaldo colegiado e sujeita a questionamentos.' },
+        { item: 'Continuidade administrativa (com Resolução)', status: 'pode', condition: 'Favorece a permanência da área independentemente de mudanças de governo ou de gestão.' },
+        { item: 'Continuidade administrativa (sem Resolução)', status: 'limite', condition: 'Suscetível a descontinuidade a cada troca de gestão, dependendo de nova decisão do secretário.' },
+        { item: 'Participação e controle social (com Resolução)', status: 'pode', condition: 'CMAS acompanha, fiscaliza e delibera sobre relatórios da Vigilância, com atribuições formalmente definidas.' },
+        { item: 'Participação e controle social (sem Resolução)', status: 'limite', condition: 'Sem previsão formal de acompanhamento pelo Conselho, dependendo de iniciativas pontuais.' },
+        { item: 'Financiamento e recursos (com Resolução)', status: 'pode', condition: 'Maior respaldo político para alocação orçamentária e justificativa de custeio da equipe técnica.' },
+        { item: 'Financiamento e recursos (sem Resolução)', status: 'limite', condition: 'Depende exclusivamente de decisão discricionária do gestor, sem respaldo normativo externo.' },
+      ]}
+    />
+  </div>
+
+  <article class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-lg p-8 md:p-12 print:shadow-none print:border-0">
+    <header class="text-center mb-8 pb-6 border-b border-slate-200 dark:border-slate-700">
+      <h2 class="text-xl md:text-2xl font-extrabold text-slate-800 dark:text-slate-200 mb-3">
+        {resolucaoCMAS.titulo}
+      </h2>
+      <p class="text-sm text-slate-600 dark:text-slate-400 italic">
+        {resolucaoCMAS.ementa}
+      </p>
+    </header>
+
+    <div class="prose max-w-none text-slate-700 dark:text-slate-300 space-y-3 text-sm leading-relaxed">
+      {resolucaoCMAS.preambulo.map((p) => (
+        <p class="text-justify">{p}</p>
+      ))}
+
+      <p class="text-center font-bold mt-4 mb-4">{resolucaoCMAS.resolve}</p>
+
+      {resolucaoCMAS.artigos.map((art) => (
+        <div class="mt-5">
+          <p class="font-bold text-slate-800 dark:text-slate-200">{art.artigo}</p>
+          <p class="text-justify">{art.caput}</p>
+          {art.incisos && (
+            <ol class="list-none pl-0 mt-2 space-y-1.5">
+              {art.incisos.map((inc) => (
+                <li class="text-justify pl-6 -indent-6"><span class="font-semibold mr-1">{inc.numero} –</span>{inc.texto}</li>
+              ))}
+            </ol>
+          )}
+        </div>
+      ))}
+
+      <div class="mt-10 pt-6 border-t border-slate-200 dark:border-slate-700 text-center space-y-1">
+        <p class="font-semibold text-slate-800 dark:text-slate-200">{resolucaoCMAS.assinatura.cargo}</p>
+        <p class="text-slate-600 dark:text-slate-400">{resolucaoCMAS.assinatura.municipio}</p>
+        <p class="text-slate-600 dark:text-slate-400">{resolucaoCMAS.assinatura.linhaData}</p>
+      </div>
+    </div>
+  </article>
+</div>

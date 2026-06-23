@@ -1,0 +1,364 @@
+---
+export interface TimelineItem {
+  title: string
+  date?: string
+  description: string
+  variant?: 'default' | 'blue' | 'green' | 'purple'
+}
+
+export interface Props {
+  items: TimelineItem[]
+  class?: string
+}
+
+const { items } = Astro.props
+
+const icons: Record<string, string> = {
+  default:
+    '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>',
+  blue:
+    '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
+  green:
+    '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
+  purple:
+    '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',
+}
+
+const badges: Record<string, string> = {
+  default: 'DOCUMENTO',
+  blue: 'PRAZO',
+  green: 'CONCLUSÃO',
+  purple: 'DESTAQUE',
+}
+---
+
+<div class="timeline-container {Astro.props.class ?? ''}">
+  <div class="timeline-line" />
+
+  {items.map((item, index) => {
+    const v = item.variant || 'default'
+    return (
+      <div
+        class="timeline-item stagger-alt animate-slide-down"
+        style={`--delay: ${index * 100}ms`}
+      >
+        <div class={`timeline-dot dot-${v}`} />
+        <div class={`timeline-card card-${v}`}>
+          <div class={`card-icon icon-${v}`} set:html={icons[v]} />
+          <div class="card-body">
+            <span class={`badge-variant badge-${v}`}>{badges[v]}</span>
+            <div class="card-header">
+              <h4 class="card-title">{item.title}</h4>
+              {item.date && <span class="card-date">{item.date}</span>}
+            </div>
+            <p class="card-desc">{item.description}</p>
+          </div>
+        </div>
+      </div>
+    )
+  })}
+</div>
+
+<style>
+  /* ============================================ */
+  /* ANIMAÇÃO ESCALONADA                          */
+  /* ============================================ */
+
+  .animate-slide-down {
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: slideDown 0.5s ease-out forwards;
+    animation-delay: var(--delay, 0ms);
+  }
+
+  @keyframes slideDown {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ============================================ */
+  /* TIMELINE - ESTRUTURA                         */
+  /* ============================================ */
+
+  .timeline-container {
+    position: relative;
+    padding-left: 3.5rem;
+  }
+
+  .timeline-line {
+    position: absolute;
+    left: 1.75rem;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    border-radius: 2px;
+    background: linear-gradient(to bottom, #64748b, #3b82f6, #22c55e, #a855f7);
+    transform: translateX(-50%);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+  .timeline-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -2.25rem;
+    top: 1.25rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    z-index: 1;
+    box-shadow: 0 0 0 4px white, 0 2px 4px rgb(0 0 0 / 0.15);
+  }
+
+  /* ============================================ */
+  /* CARDS - BASE                                 */
+  /* ============================================ */
+
+  .timeline-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    border-radius: 1rem;
+    border: 2px solid transparent;
+    background: white;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .timeline-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+
+  /* ============================================ */
+  /* ÍCONE DO CARD                                */
+  /* ============================================ */
+
+  .card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: white;
+  }
+
+  /* ============================================ */
+  /* CORPO DO CARD                                */
+  /* ============================================ */
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .badge-variant {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    width: fit-content;
+    color: white;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .card-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .card-date {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    flex-shrink: 0;
+  }
+
+  .card-desc {
+    font-size: 0.8125rem;
+    color: #64748b;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ============================================ */
+  /* VARIANTE: DEFAULT (SLATE / DOCUMENTO)        */
+  /* ============================================ */
+
+  .card-default {
+    border-color: #94a3b8;
+    background: linear-gradient(135deg, #f8fafc 0%, white 100%);
+  }
+
+  .icon-default {
+    background: linear-gradient(135deg, #64748b 0%, #94a3b8 100%);
+  }
+
+  .badge-default {
+    background: #64748b;
+  }
+
+  .card-default .card-title {
+    color: #334155;
+  }
+
+  .dot-default {
+    background: linear-gradient(135deg, #64748b 0%, #94a3b8 100%);
+  }
+
+  /* ============================================ */
+  /* VARIANTE: BLUE (PRAZO)                       */
+  /* ============================================ */
+
+  .card-blue {
+    border-color: #60a5fa;
+    background: linear-gradient(135deg, #eff6ff 0%, white 100%);
+  }
+
+  .icon-blue {
+    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+  }
+
+  .badge-blue {
+    background: #3b82f6;
+  }
+
+  .card-blue .card-title {
+    color: #1d4ed8;
+  }
+
+  .dot-blue {
+    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+  }
+
+  /* ============================================ */
+  /* VARIANTE: GREEN (CONCLUSÃO)                  */
+  /* ============================================ */
+
+  .card-green {
+    border-color: #4ade80;
+    background: linear-gradient(135deg, #f0fdf4 0%, white 100%);
+  }
+
+  .icon-green {
+    background: linear-gradient(135deg, #22c55e 0%, #4ade80 100%);
+  }
+
+  .badge-green {
+    background: #22c55e;
+  }
+
+  .card-green .card-title {
+    color: #15803d;
+  }
+
+  .dot-green {
+    background: linear-gradient(135deg, #22c55e 0%, #4ade80 100%);
+  }
+
+  /* ============================================ */
+  /* VARIANTE: PURPLE (DESTAQUE)                  */
+  /* ============================================ */
+
+  .card-purple {
+    border-color: #c084fc;
+    background: linear-gradient(135deg, #faf5ff 0%, white 100%);
+  }
+
+  .icon-purple {
+    background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);
+  }
+
+  .badge-purple {
+    background: #a855f7;
+  }
+
+  .card-purple .card-title {
+    color: #7e22ce;
+  }
+
+  .dot-purple {
+    background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);
+  }
+
+  /* ============================================ */
+  /* TEMA ESCURO                                  */
+  /* ============================================ */
+
+  :global(.dark) .timeline-card {
+    background: #1e293b;
+    border-color: #334155;
+  }
+
+  :global(.dark) .timeline-line {
+    opacity: 0.6;
+  }
+
+  :global(.dark) .timeline-dot {
+    box-shadow: 0 0 0 4px #0f172a, 0 2px 4px rgb(0 0 0 / 0.4);
+  }
+
+  :global(.dark) .card-default {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border-color: #64748b;
+  }
+  :global(.dark) .card-default .card-title {
+    color: #cbd5e1;
+  }
+
+  :global(.dark) .card-blue {
+    background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+    border-color: #3b82f6;
+  }
+  :global(.dark) .card-blue .card-title {
+    color: #93c5fd;
+  }
+
+  :global(.dark) .card-green {
+    background: linear-gradient(135deg, #14532d 0%, #0f172a 100%);
+    border-color: #22c55e;
+  }
+  :global(.dark) .card-green .card-title {
+    color: #86efac;
+  }
+
+  :global(.dark) .card-purple {
+    background: linear-gradient(135deg, #3b0764 0%, #0f172a 100%);
+    border-color: #a855f7;
+  }
+  :global(.dark) .card-purple .card-title {
+    color: #c4b5fd;
+  }
+
+  :global(.dark) .card-date {
+    color: #64748b;
+  }
+
+  :global(.dark) .card-desc {
+    color: #94a3b8;
+  }
+</style>

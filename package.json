@@ -1,0 +1,44 @@
+{
+  "name": "guia-vigilancia-socioassistencial-astro",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "node -e \"if(!require('fs').existsSync('public/pagefind')){console.log('\\x1b[33mAVISO: pagefind nao encontrado em public/. Execute npm run build uma vez para gerar o indice de busca.\\x1b[0m')}\" && astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build && npx pagefind --site dist",
+    "postbuild": "node -e \"const{cpSync}=require('fs');cpSync('dist/pagefind','public/pagefind',{recursive:true});console.log('pagefind copiado para public/ (modo dev)')\"",
+    "postinstall": "node scripts/patch-pageflip.js",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@astrojs/react": "^4.0.0",
+    "@radix-ui/react-accordion": "^1.2.0",
+    "@radix-ui/react-slider": "^1.2.0",
+    "astro": "^6.4.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "lucide-react": "^0.400.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-pageflip": "^2.0.3",
+    "reactflow": "^11.10.0",
+    "recharts": "^2.12.0",
+    "tailwind-merge": "^2.2.0",
+    "tailwindcss": "^3.4.0",
+    "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "yaml-language-server": {
+      "yaml": "^2.9.0"
+    }
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "autoprefixer": "^10.4.0",
+    "pagefind": "^1.5.2",
+    "postcss": "^8.4.0",
+    "tailwindcss-animate": "^1.0.7"
+  }
+}

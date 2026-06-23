@@ -1,0 +1,347 @@
+---
+import { BLOCKS, FINAL_SECTIONS, BLOCK_ACCENTS } from '@/lib/constants'
+
+const allSectionIds = [
+  'capa', 'expediente', 'sumario', 'apresentacao',
+  ...BLOCKS.flatMap((b) => b.items.map((i) => i.id)),
+  ...FINAL_SECTIONS.map((s) => s.id),
+]
+
+// Build section→block lookup for inline script
+const sectionBlockMap: Record<string, {
+  blockId: string
+  blockTitle: string
+  accentKey: string
+  hex: string
+  label: string
+}> = {}
+
+BLOCKS.forEach((b) => {
+  const accent = BLOCK_ACCENTS[b.accent as keyof typeof BLOCK_ACCENTS]
+  b.items.forEach((i) => {
+    sectionBlockMap[i.id] = {
+      blockId: b.id,
+      blockTitle: b.title,
+      accentKey: b.accent,
+      hex: accent.hex,
+      label: accent.label,
+    }
+  })
+})
+
+// Block navigation list (first/last section per block)
+const blockNavList: Array<{
+  id: string
+  title: string
+  firstSectionId: string
+  lastSectionId: string
+}> = BLOCKS.map((b) => ({
+  id: b.id,
+  title: b.title,
+  firstSectionId: b.items[0].id,
+  lastSectionId: b.items[b.items.length - 1].id,
+}))
+---
+
+<div id="sidebar-root" class="relative">
+  <aside id="sidebar-aside" class="fixed left-0 top-0 h-full w-72 z-50 overflow-y-auto bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-2xl border-r border-white/20 dark:border-slate-700/20 transition-transform duration-300 ease-in-out -translate-x-full">
+    <div class="border-b border-slate-200/30 dark:border-slate-700/50 bg-institucional-blue flex items-center justify-between p-4">
+      <h3 class="text-white font-bold text-sm uppercase tracking-wider">Navegação</h3>
+      <button id="sidebar-close-btn" class="text-white/80 hover:text-white flex items-center gap-2" aria-label="Fechar menu">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <span class="md:hidden text-xs">Fechar</span>
+      </button>
+    </div>
+
+    <!-- Progresso de leitura -->
+    <div class="px-3 pt-3 pb-1">
+      <div class="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500 mb-1">
+        <span>Progresso de leitura</span>
+        <span id="reading-percent" class="font-semibold text-slate-500 dark:text-slate-400">0%</span>
+      </div>
+      <div class="w-full h-1.5 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+        <div id="reading-bar" class="h-full bg-institucional-green rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <!-- Breadcrumb + "Você está aqui" -->
+    <div id="breadcrumb-area" class="px-3 pt-2 pb-1.5 border-b border-slate-100 dark:border-slate-700/30 hidden">
+      <div class="flex items-center gap-1.5 mb-1">
+        <span class="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-[3px] text-[10px] font-bold uppercase tracking-wider bg-institucional-lightBlue text-institucional-blue">
+          <svg class="w-2.5 h-2.5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+          Você está aqui
+        </span>
+      </div>
+      <div id="breadcrumb-path" class="flex items-center gap-1 text-xs font-medium text-slate-500 dark:text-slate-400 ml-0.5">
+        <span id="bc-block-name" class="text-slate-400 dark:text-slate-500 font-semibold">—</span>
+        <svg class="w-3 h-3 text-slate-300 dark:text-slate-600 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+        <span id="bc-section-name" class="text-slate-700 dark:text-slate-300 font-semibold">—</span>
+      </div>
+    </div>
+
+    <!-- Botões de navegação entre seções -->
+    <div class="flex gap-1 px-3 pt-2 pb-1">
+      <button id="prev-btn" class="hidden flex-1 text-[10px] text-slate-500 dark:text-slate-400 hover:text-institucional-blue dark:hover:text-institucional-lightBlue-foreground hover:bg-institucional-lightBlue dark:hover:bg-institucional-lightBlue rounded py-1.5 px-2 transition-colors font-medium">← Anterior</button>
+      <button id="next-btn" class="hidden flex-1 text-[10px] text-slate-500 dark:text-slate-400 hover:text-institucional-blue dark:hover:text-institucional-lightBlue-foreground hover:bg-institucional-lightBlue dark:hover:bg-institucional-lightBlue rounded py-1.5 px-2 transition-colors font-medium text-right">Próximo →</button>
+    </div>
+
+    <!-- Botões de navegação entre blocos -->
+    <div id="block-nav-area" class="hidden px-3 pb-2">
+      <div class="flex gap-1">
+        <button id="prev-block-btn" class="hidden flex-1 text-[10px] text-slate-400 dark:text-slate-500 hover:text-institucional-blue rounded py-1 px-2 transition-colors font-medium border border-dashed border-slate-200 dark:border-slate-700 hover:border-institucional-blue/30 hover:bg-institucional-lightBlue">← Bloco Anterior</button>
+        <button id="next-block-btn" class="hidden flex-1 text-[10px] text-slate-400 dark:text-slate-500 hover:text-institucional-blue rounded py-1 px-2 transition-colors font-medium border border-dashed border-slate-200 dark:border-slate-700 hover:border-institucional-blue/30 hover:bg-institucional-lightBlue text-right">Próximo Bloco →</button>
+      </div>
+    </div>
+
+    <nav class="p-3 space-y-0.5">
+      <button data-nav="capa" class="block w-full text-left px-3 py-2 rounded font-medium transition-all duration-200 text-xs text-slate-600 dark:text-slate-400 hover:bg-institucional-lightBlue dark:hover:bg-slate-700 hover:text-institucional-blue dark:hover:text-slate-200">Capa</button>
+      <button data-nav="expediente" class="block w-full text-left px-3 py-2 rounded font-medium transition-all duration-200 text-xs text-slate-600 dark:text-slate-400 hover:bg-institucional-lightBlue dark:hover:bg-slate-700 hover:text-institucional-blue dark:hover:text-slate-200">Expediente</button>
+      <button data-nav="sumario" class="block w-full text-left px-3 py-2 rounded font-medium transition-all duration-200 text-xs text-slate-600 dark:text-slate-400 hover:bg-institucional-lightBlue dark:hover:bg-slate-700 hover:text-institucional-blue dark:hover:text-slate-200">Sumário</button>
+      <button data-nav="apresentacao" class="block w-full text-left px-3 py-2 rounded font-medium transition-all duration-200 text-xs text-slate-600 dark:text-slate-400 hover:bg-institucional-lightBlue dark:hover:bg-slate-700 hover:text-institucional-blue dark:hover:text-slate-200">Apresentação</button>
+
+      {BLOCKS.map((block) => {
+        const accent = BLOCK_ACCENTS[block.accent as keyof typeof BLOCK_ACCENTS]
+        return (
+          <div>
+            <div class={`pt-2 pb-1 px-3 text-[10px] font-bold uppercase tracking-widest ${accent?.color || 'text-slate-400'}`}>{block.title}</div>
+            {block.items.map((item) => (
+              <button data-nav={item.id} class="block w-full text-left px-3 py-2 rounded font-medium transition-all duration-200 text-xs text-slate-600 dark:text-slate-400 hover:bg-institucional-lightBlue dark:hover:bg-slate-700 hover:text-institucional-blue dark:hover:text-slate-200">{item.title}</button>
+            ))}
+          </div>
+        )
+      })}
+
+      <div class="pt-2 pb-1 px-3 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Final</div>
+      {FINAL_SECTIONS.map((s) => (
+        <button data-nav={s.id} class="block w-full text-left px-3 py-2 rounded font-medium transition-all duration-200 text-xs text-slate-600 dark:text-slate-400 hover:bg-institucional-lightBlue dark:hover:bg-slate-700 hover:text-institucional-blue dark:hover:text-slate-200">{s.title}</button>
+      ))}
+      <button data-nav="contra-capa" class="block w-full text-left px-3 py-2 rounded font-medium transition-all duration-200 text-xs text-slate-600 dark:text-slate-400 hover:bg-institucional-lightBlue dark:hover:bg-slate-700 hover:text-institucional-blue dark:hover:text-slate-200">Contra-Capa</button>
+    </nav>
+  </aside>
+
+  <button id="sidebar-open-btn" class="fixed top-3 left-3 z-30 md:top-1/2 md:-translate-y-1/2 md:left-0 bg-institucional-blue text-white rounded-lg md:rounded-r-lg md:rounded-l-none py-2 px-2.5 shadow-lg hover:bg-blue-800 transition-all duration-200 flex items-center justify-center gap-1.5 text-xs font-medium" aria-label="Abrir navegação">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    <span class="hidden md:hidden">Menu</span>
+  </button>
+  <div id="sidebar-overlay" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 hidden" />
+
+  <div id="sidebar-bottom-bar" class="fixed bottom-4 left-4 w-64 h-1 bg-slate-200 dark:bg-slate-700 z-50 rounded-full overflow-hidden shadow-sm hidden">
+    <div id="scroll-progress-bar" class="h-full bg-institucional-green transition-all duration-150 ease-linear rounded-full" style="width: 0%"></div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ allSectionIds, sectionBlockMap, blockNav: blockNavList }}>
+(function() {
+  var activeId = ''
+  var ids = allSectionIds
+  var blockMap = sectionBlockMap
+
+
+  var aside = document.getElementById('sidebar-aside')
+  var overlay = document.getElementById('sidebar-overlay')
+  var openBtn = document.getElementById('sidebar-open-btn')
+  var closeBtn = document.getElementById('sidebar-close-btn')
+  var navBtns = document.querySelectorAll('[data-nav]')
+  var readingPercent = document.getElementById('reading-percent')
+  var readingBar = document.getElementById('reading-bar')
+  var prevBtn = document.getElementById('prev-btn')
+  var nextBtn = document.getElementById('next-btn')
+  var bottomBar = document.getElementById('sidebar-bottom-bar')
+  var scrollBar = document.getElementById('scroll-progress-bar')
+
+  // New elements
+  var breadcrumbArea = document.getElementById('breadcrumb-area')
+  var bcBlock = document.getElementById('bc-block-name')
+  var bcSection = document.getElementById('bc-section-name')
+  var blockNavArea = document.getElementById('block-nav-area')
+  var prevBlockBtn = document.getElementById('prev-block-btn')
+  var nextBlockBtn = document.getElementById('next-block-btn')
+
+  function scrollTo(id) {
+    aside.classList.remove('translate-x-0')
+    aside.classList.add('-translate-x-full')
+    overlay.classList.add('hidden')
+    openBtn.classList.remove('hidden')
+    bottomBar.classList.add('hidden')
+    var el = document.getElementById(id)
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+
+  function openSidebar() {
+    aside.classList.remove('-translate-x-full')
+    aside.classList.add('translate-x-0')
+    overlay.classList.remove('hidden')
+    openBtn.classList.add('hidden')
+    bottomBar.classList.remove('hidden')
+  }
+
+  function closeSidebar() {
+    aside.classList.remove('translate-x-0')
+    aside.classList.add('-translate-x-full')
+    overlay.classList.add('hidden')
+    openBtn.classList.remove('hidden')
+    bottomBar.classList.add('hidden')
+  }
+
+  openBtn.addEventListener('click', openSidebar)
+  closeBtn.addEventListener('click', closeSidebar)
+  overlay.addEventListener('click', closeSidebar)
+
+  navBtns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      scrollTo(btn.getAttribute('data-nav'))
+    })
+  })
+
+  // ---- Block color helpers ----
+
+  function getBlockData(sectionId) {
+    return blockMap[sectionId] || null
+  }
+
+  function getBlockIndex(blockId) {
+    for (var i = 0; i < blockNav.length; i++) {
+      if (blockNav[i].id === blockId) return i
+    }
+    return -1
+  }
+
+  // ---- Active nav highlight with block colors ----
+
+  function updateActiveNav(sectionId) {
+    var block = getBlockData(sectionId)
+    navBtns.forEach(function(b) {
+      var id = b.getAttribute('data-nav')
+
+      // Reset all highlight-related styles
+      b.classList.remove(
+        'bg-institucional-blue', 'text-white', 'shadow-md',
+        'rounded-r'
+      )
+      b.style.removeProperty('background-color')
+      b.style.removeProperty('color')
+      b.style.removeProperty('border-left')
+      b.style.removeProperty('padding-left')
+      b.style.removeProperty('border-radius')
+      b.classList.add(
+        'text-slate-600', 'dark:text-slate-400',
+        'hover:bg-institucional-lightBlue', 'dark:hover:bg-slate-700',
+        'hover:text-institucional-blue', 'dark:hover:text-slate-200',
+        'rounded'
+      )
+
+      if (id === sectionId) {
+        if (block) {
+          // Block section → use block accent color
+          b.classList.remove(
+            'text-slate-600', 'dark:text-slate-400',
+            'hover:bg-institucional-lightBlue', 'dark:hover:bg-slate-700',
+            'hover:text-institucional-blue', 'dark:hover:text-slate-200',
+            'rounded'
+          )
+          b.classList.add('rounded-r')
+          b.style.backgroundColor = block.hex + '18'  // ~10% opacity
+          b.style.color = block.hex
+          b.style.borderLeft = '2px solid ' + block.hex
+          b.style.paddingLeft = 'calc(0.75rem - 2px)'
+          b.style.borderRadius = '0 0.25rem 0.25rem 0'
+        } else {
+          // Non-block section (capa, expediente, etc.) → default blue
+          b.classList.remove(
+            'text-slate-600', 'dark:text-slate-400',
+            'hover:bg-institucional-lightBlue', 'dark:hover:bg-slate-700',
+            'hover:text-institucional-blue', 'dark:hover:text-slate-200',
+            'rounded'
+          )
+          b.classList.add('bg-institucional-blue', 'text-white', 'shadow-md', 'rounded')
+        }
+      }
+    })
+  }
+
+  // ---- Breadcrumb ----
+
+  function updateBreadcrumb(sectionId) {
+    var block = getBlockData(sectionId)
+    if (block) {
+      breadcrumbArea.classList.remove('hidden')
+      // Get section title from nav button text
+      var sectionBtn = document.querySelector('[data-nav="' + sectionId + '"]')
+      var sectionTitle = sectionBtn ? sectionBtn.textContent.trim() : sectionId
+      bcBlock.textContent = block.blockTitle
+      bcBlock.style.color = block.hex
+      bcSection.textContent = sectionTitle
+    } else {
+      breadcrumbArea.classList.add('hidden')
+    }
+  }
+
+  // ---- Progress bar color ----
+
+  function updateProgressColor(sectionId) {
+    var block = getBlockData(sectionId)
+    if (block) {
+      readingBar.style.backgroundColor = block.hex
+    } else {
+      readingBar.style.backgroundColor = '' // revert to CSS default (green)
+    }
+  }
+
+  // ---- Block navigation ----
+
+  function updateBlockNav(sectionId) {
+    var block = getBlockData(sectionId)
+    if (block) {
+      blockNavArea.classList.remove('hidden')
+      var idx = getBlockIndex(block.blockId)
+      if (idx > 0) {
+        prevBlockBtn.classList.remove('hidden')
+        prevBlockBtn.onclick = function() { scrollTo(blockNav[idx - 1].firstSectionId) }
+      } else {
+        prevBlockBtn.classList.add('hidden')
+      }
+      if (idx >= 0 && idx < blockNav.length - 1) {
+        nextBlockBtn.classList.remove('hidden')
+        nextBlockBtn.onclick = function() { scrollTo(blockNav[idx + 1].firstSectionId) }
+      } else {
+        nextBlockBtn.classList.add('hidden')
+      }
+    } else {
+      blockNavArea.classList.add('hidden')
+    }
+  }
+
+  // ---- Observer ----
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        activeId = entry.target.id
+        var idx = ids.indexOf(activeId)
+        var pct = Math.round((idx / ids.length) * 100)
+        readingPercent.textContent = pct + '%'
+        readingBar.style.width = pct + '%'
+        if (idx > 0) { prevBtn.classList.remove('hidden'); prevBtn.onclick = function() { scrollTo(ids[idx - 1]) } } else { prevBtn.classList.add('hidden') }
+        if (idx < ids.length - 1) { nextBtn.classList.remove('hidden'); nextBtn.onclick = function() { scrollTo(ids[idx + 1]) } } else { nextBtn.classList.add('hidden') }
+
+        updateActiveNav(activeId)
+        updateBreadcrumb(activeId)
+        updateBlockNav(activeId)
+        updateProgressColor(activeId)
+      }
+    })
+  }, { rootMargin: '-20% 0px -60% 0px', threshold: 0 })
+
+  ids.forEach(function(id) {
+    var el = document.getElementById(id)
+    if (el) observer.observe(el)
+  })
+
+  window.addEventListener('scroll', function() {
+    var scrollTop = window.scrollY
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight
+    var progress = docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0
+    if (scrollBar) scrollBar.style.width = (progress * 100) + '%'
+  }, { passive: true })
+})()
+</script>

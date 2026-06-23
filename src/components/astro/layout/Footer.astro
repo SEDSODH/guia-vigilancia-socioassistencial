@@ -1,0 +1,23 @@
+---
+export interface Props {
+  class?: string
+}
+
+const { class: className } = Astro.props
+---
+
+<footer class={`bg-gradient-to-br from-slate-800 dark:from-slate-900 via-slate-800 dark:via-slate-900 to-slate-800 text-slate-300 dark:text-slate-400 py-12 px-6 text-center text-sm ${className ?? ''}`}>
+  <div class="max-w-xl mx-auto space-y-4">
+    <p class="text-white dark:text-slate-100 font-bold text-base">
+      Governo do Estado do Rio de Janeiro
+    </p>
+    <p class="text-slate-400 dark:text-slate-500">
+      Secretaria de Estado de Desenvolvimento Social e Direitos Humanos<br/>
+      Subsecretaria de Gestão do SUAS &mdash; SUPGS
+    </p>
+    <div class="h-px bg-slate-700 dark:bg-slate-600 w-24 mx-auto my-6" />
+    <p class="text-slate-500 dark:text-slate-400 text-xs">
+      &copy; {new Date().getFullYear()} &mdash; Todos os direitos reservados. Este caderno tem caráter exclusivamente orientativo.
+    </p>
+  </div>
+</footer>

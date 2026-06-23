@@ -1,0 +1,255 @@
+---
+export interface Props {
+  /**
+   * Modo inicial do componente.
+   * - 'guide': experiência didática completa (BlockIntro, tooltips, animações, resumos)
+   * - 'reference': navegação rápida (apenas títulos, termos clicáveis)
+   * @default 'guide'
+   */
+  defaultMode?: 'guide' | 'reference'
+}
+
+const { defaultMode = 'guide' } = Astro.props
+---
+
+<style is:global>
+  /* ==========================================================
+     PEDAGOGIC MODE — Visibility & Styling Rules
+     Controla como elementos .pedagogic-* se comportam em cada
+     modo. Colocado aqui para auto-contido; pode ser extraído
+     para global.css se desejar.
+     ========================================================== */
+
+  /* --- BlockIntro & Summary: visível no Guia, oculto na Referência --- */
+  [data-pedagogic-mode='guide'] .pedagogic\:guide {
+    display: revert;
+  }
+  [data-pedagogic-mode='guide'] .pedagogic\:reference {
+    display: none;
+  }
+  [data-pedagogic-mode='reference'] .pedagogic\:guide {
+    display: none;
+  }
+  [data-pedagogic-mode='reference'] .pedagogic\:reference {
+    display: revert;
+  }
+
+  /* --- Animações pedagógicas: ativas no Guia, removidas na Referência --- */
+  [data-pedagogic-mode='reference'] .pedagogic\:animate {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* --- Termos-chave: fundo amarelo c/ cursor help no Guia; link pontilhado na Ref --- */
+  [data-pedagogic-mode='guide'] .pedagogic\:term {
+    background-color: #fef9c3;
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    border-radius: 0.125rem;
+    cursor: help;
+  }
+  :is(.dark) [data-pedagogic-mode='guide'] .pedagogic\:term {
+    background-color: rgba(113, 63, 18, 0.3);
+  }
+
+  [data-pedagogic-mode='reference'] .pedagogic\:term {
+    color: #004b87;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-underline-offset: 2px;
+    cursor: pointer;
+  }
+  :is(.dark) [data-pedagogic-mode='reference'] .pedagogic\:term {
+    color: #60a5fa;
+  }
+
+  /* --- Tooltips: interação ativa no Guia, desativada na Referência --- */
+  [data-pedagogic-mode='guide'] .pedagogic\:tooltip {
+    pointer-events: auto;
+  }
+  [data-pedagogic-mode='reference'] .pedagogic\:tooltip {
+    pointer-events: none;
+  }
+
+  /* ==========================================================
+     MODE TOGGLE — Active state via aria-pressed
+     ========================================================== */
+
+  /* Botão Guia — ativo */
+  #pedagogic-mode-guide[aria-pressed='true'] {
+    @apply bg-institucional-blue text-white border-institucional-blue shadow-sm;
+  }
+  #pedagogic-mode-guide[aria-pressed='true']:hover {
+    @apply bg-blue-800 border-blue-800;
+  }
+  /* Botão Guia — inativo */
+  #pedagogic-mode-guide[aria-pressed='false'] {
+    @apply bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-600;
+  }
+  #pedagogic-mode-guide[aria-pressed='false']:hover {
+    @apply bg-slate-50 dark:bg-slate-600;
+  }
+
+  /* Botão Ref — ativo */
+  #pedagogic-mode-reference[aria-pressed='true'] {
+    @apply bg-amber-500 text-white border-amber-500 shadow-sm;
+  }
+  #pedagogic-mode-reference[aria-pressed='true']:hover {
+    @apply bg-amber-600 border-amber-600;
+  }
+  /* Botão Ref — inativo */
+  #pedagogic-mode-reference[aria-pressed='false'] {
+    @apply bg-white dark:bg-slate-700 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-600;
+  }
+  #pedagogic-mode-reference[aria-pressed='false']:hover {
+    @apply bg-slate-50 dark:bg-slate-600;
+  }
+
+  /* Transição suave entre modos */
+  .pedagogic-mode-toggle button {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Foco visível para acessibilidade */
+  .pedagogic-mode-toggle button:focus-visible {
+    @apply outline-none ring-2 ring-institucional-blue/50 ring-offset-2 dark:ring-offset-slate-900;
+  }
+
+  @media print {
+    .pedagogic-mode-toggle {
+      display: none !important;
+    }
+  }
+</style>
+
+<!--
+  Script inline execute imediatamente para:
+  1. Definir data-pedagogic-mode no <body> antes do paint (evita flash)
+  2. Configurar listeners e sincronizar com React via CustomEvent
+-->
+<script is:inline define:vars={{ defaultMode }}>
+(function() {
+  var LS_KEY = 'caderno-pedagogic-mode'
+
+  // --- Inicialização: valor salvo ou default ---
+  var saved = localStorage.getItem(LS_KEY)
+  var mode = saved === 'guide' || saved === 'reference'
+    ? saved
+    : (defaultMode === 'reference' ? 'reference' : 'guide')
+
+  // Aplica atributo imediatamente para evitar flash de conteúdo
+  document.body.setAttribute('data-pedagogic-mode', mode)
+
+  // --- Helpers ---
+  function updateMode(newMode) {
+    if (newMode === mode) return
+    mode = newMode
+
+    // Atualiza atributo no body
+    document.body.setAttribute('data-pedagogic-mode', mode)
+    localStorage.setItem(LS_KEY, mode)
+
+    // Sincroniza estado visual dos botões
+    syncToggleUI()
+
+    // Dispara evento customizado para componentes React (BlockIntro, GlossaryTooltip, etc.)
+    window.dispatchEvent(new CustomEvent('pedagogic-mode-change', {
+      detail: { mode: mode }
+    }))
+  }
+
+  function syncToggleUI() {
+    var guideBtn = document.getElementById('pedagogic-mode-guide')
+    var refBtn = document.getElementById('pedagogic-mode-reference')
+    if (!guideBtn || !refBtn) return
+
+    var isGuide = mode === 'guide'
+    guideBtn.setAttribute('aria-pressed', String(isGuide))
+    refBtn.setAttribute('aria-pressed', String(!isGuide))
+  }
+
+  // --- Setup após DOM pronto ---
+  function setup() {
+    syncToggleUI()
+
+    var guideBtn = document.getElementById('pedagogic-mode-guide')
+    var refBtn = document.getElementById('pedagogic-mode-reference')
+
+    if (guideBtn) {
+      guideBtn.addEventListener('click', function() { updateMode('guide') })
+    }
+    if (refBtn) {
+      refBtn.addEventListener('click', function() { updateMode('reference') })
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setup)
+  } else {
+    setup()
+  }
+})()
+</script>
+
+<!-- ==========================================================
+     TOGGLE UI — Segmented control estilizado como pill
+     ========================================================== -->
+<div
+  class="pedagogic-mode-toggle flex items-center gap-0 no-print"
+  role="group"
+  aria-label="Alternar modo de experiência: Guia ou Referência"
+>
+  <!-- Modo Guia -->
+  <button
+    id="pedagogic-mode-guide"
+    class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-l-full text-xs font-semibold border border-r-0 cursor-pointer select-none"
+    data-mode="guide"
+    aria-pressed="false"
+    aria-label="Modo Guia — experiência didática completa com resumos, tooltips e animações"
+    title="Modo Guia: explicações detalhadas, resumos, tooltips de glossário e animações pedagógicas"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="14" height="14"
+      viewBox="0 0 24 24"
+      fill="none" stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+      <path d="M8 7h8" />
+      <path d="M8 11h6" />
+    </svg>
+    <span>Guia</span>
+  </button>
+
+  <!-- Modo Referência -->
+  <button
+    id="pedagogic-mode-reference"
+    class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-r-full text-xs font-semibold border border-l-0 cursor-pointer select-none"
+    data-mode="reference"
+    aria-pressed="false"
+    aria-label="Modo Referência — navegação rápida com apenas títulos e termos clicáveis"
+    title="Modo Referência: navegação objetiva, animações mínimas, termos clicáveis com link para glossário"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="14" height="14"
+      viewBox="0 0 24 24"
+      fill="none" stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <polyline points="12 6 12 12 16 14" />
+    </svg>
+    <span>Ref</span>
+  </button>
+</div>

@@ -1,0 +1,97 @@
+---
+import SectionHeader from '@/components/astro/layout/SectionHeader.astro'
+import AlertBox from '@/components/astro/content/AlertBox.astro'
+import InfoCard from '@/components/astro/content/InfoCard.astro'
+---
+<div id="disseminacao-informacao" class="mb-16 animate-on-scroll">
+  <SectionHeader title="8. Produção e Disseminação de Informações" />
+  <div class="prose max-w-none text-slate-700 dark:text-slate-300 space-y-6 text-base leading-relaxed">
+    <p class="text-lg"><strong>Objetivo:</strong> subsidiar a gestão municipal, o CMAS e a sociedade com informações qualificadas.</p>
+    <p>A produção de informações só se completa com a sua <strong>disseminação efetiva</strong> para os diferentes públicos da Política de Assistência Social: gestores, técnicos, conselheiros, trabalhadores da rede e sociedade em geral.</p>
+  </div>
+
+  <div class="mt-8 bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+    <div class="flex items-center gap-2 mb-4">
+      <div class="w-1 h-6 bg-institucional-blue rounded-full"></div>
+      <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200">Ações da Etapa 3</h3>
+    </div>
+    <ul class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300 bg-institucional-lightBlue/40 dark:bg-slate-700/40 p-3 rounded-lg">
+        <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-institucional-blue" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <span>Produzir boletins informativos com periodicidade regular</span>
+      </li>
+      <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300 bg-institucional-lightGreen/40 dark:bg-slate-700/40 p-3 rounded-lg">
+        <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-institucional-green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <span>Elaborar relatórios gerenciais para a gestão</span>
+      </li>
+      <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300 bg-cyan-50 dark:bg-slate-700/40 p-3 rounded-lg">
+        <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-cyan-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <span>Construir painéis de indicadores para acompanhamento contínuo</span>
+      </li>
+      <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300 bg-purple-50 dark:bg-slate-700/40 p-3 rounded-lg">
+        <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-purple-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        <span>Produzir informes territoriais para CRAS e CREAS</span>
+      </li>
+      <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300 bg-pink-50 dark:bg-slate-700/40 p-3 rounded-lg md:col-span-2">
+        <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-pink-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Preparar apresentações para gestores, conselheiros e sociedade</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="mt-10">
+    <div class="flex items-center gap-2 mb-4">
+      <div class="w-1 h-6 bg-institucional-blue rounded-full"></div>
+      <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200">Produtos Recomendados</h3>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <InfoCard title="Boletins Informativos" accent="blue">
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">Documentos sintéticos com dados e análises de temas específicos.</p>
+        <p class="text-xs text-slate-500 dark:text-slate-500"><strong>Periodicidade:</strong> mensal</p>
+      </InfoCard>
+      <InfoCard title="Relatórios Gerenciais" accent="purple">
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">Visão consolidada dos indicadores e resultados da rede socioassistencial.</p>
+        <p class="text-xs text-slate-500 dark:text-slate-500"><strong>Periodicidade:</strong> trimestral</p>
+      </InfoCard>
+      <InfoCard title="Painéis de Indicadores" accent="green">
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">Visualizações dinâmicas e interativas para acompanhamento contínuo.</p>
+        <p class="text-xs text-slate-500 dark:text-slate-500"><strong>Periodicidade:</strong> atualizados continuamente</p>
+      </InfoCard>
+      <InfoCard title="Informes Territoriais" accent="blue">
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">Sínteses com foco em cada território de CRAS/CREAS.</p>
+        <p class="text-xs text-slate-500 dark:text-slate-500"><strong>Periodicidade:</strong> semestral</p>
+      </InfoCard>
+      <InfoCard title="Apresentações Institucionais" accent="purple">
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">Materiais para reuniões com gestores, CMAS, eventos e audiências públicas.</p>
+        <p class="text-xs text-slate-500 dark:text-slate-500"><strong>Periodicidade:</strong> sob demanda</p>
+      </InfoCard>
+      <InfoCard title="Diagnóstico Socioterritorial" accent="green">
+        <p class="text-sm text-slate-600 dark:text-slate-400 mb-2">Documento analítico amplo, com periodicidade bienal ou conforme necessidade.</p>
+        <p class="text-xs text-slate-500 dark:text-slate-500"><strong>Periodicidade:</strong> bienal</p>
+      </InfoCard>
+    </div>
+  </div>
+
+  <div class="mt-10 prose max-w-none text-slate-700 dark:text-slate-300 space-y-4 text-base leading-relaxed">
+    <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200">Adequação aos públicos</h3>
+    <p>A linguagem e o formato dos produtos devem ser <strong>adequados ao público</strong> a que se destinam:</p>
+    <ul class="list-disc list-inside space-y-2">
+      <li><strong>Para gestores</strong> — relatórios executivos com foco em decisões, indicadores de resultado e recomendações</li>
+      <li><strong>Para técnicos</strong> — documentos analíticos detalhados, com séries históricas, métodos e limitações</li>
+      <li><strong>Para conselheiros</strong> — materiais didáticos com visualizações, glossário e sínteses</li>
+      <li><strong>Para a sociedade</strong> — peças de comunicação acessíveis, com dados-chave e linguagem clara</li>
+    </ul>
+  </div>
+
+  <div class="mt-10">
+    <AlertBox variant="success" title="Produtos Esperados">
+      <ul class="list-disc list-inside space-y-1.5">
+        <li>Boletins informativos mensais</li>
+        <li>Relatórios gerenciais trimestrais</li>
+        <li>Relatórios semestrais de avaliação</li>
+        <li>Relatórios anuais consolidados</li>
+        <li>Painéis de indicadores permanentemente atualizados</li>
+      </ul>
+    </AlertBox>
+  </div>
+</div>

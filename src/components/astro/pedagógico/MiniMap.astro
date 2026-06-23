@@ -1,0 +1,271 @@
+---
+import { BLOCKS, BLOCK_ACCENTS } from '@/lib/constants'
+
+interface BlockStats {
+  id: string
+  title: string
+  sectionCount: number
+  accent: (typeof BLOCK_ACCENTS)[keyof typeof BLOCK_ACCENTS]
+  firstItemId: string
+}
+
+const blockStats: BlockStats[] = BLOCKS.map((block) => ({
+  id: block.id,
+  title: block.title,
+  sectionCount: block.items.length,
+  accent: BLOCK_ACCENTS[block.accent as keyof typeof BLOCK_ACCENTS],
+  firstItemId: block.items[0].id,
+}))
+
+const allSectionIds = BLOCKS.flatMap((b) => b.items.map((i) => i.id))
+---
+
+<!-- Floating minimap open button -->
+<button
+  id="minimap-open-btn"
+  class="fixed bottom-6 right-6 z-40 flex items-center justify-center w-12 h-12 rounded-full bg-white dark:bg-slate-800 shadow-lg border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:scale-110 hover:shadow-xl transition-all duration-300"
+  aria-label="Abrir mapa do documento"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+    <line x1="8" y1="2" x2="8" y2="18"/>
+    <line x1="16" y1="6" x2="16" y2="22"/>
+  </svg>
+</button>
+
+<!-- Overlay -->
+<div
+  id="minimap-overlay"
+  class="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 transition-opacity duration-300 opacity-0 pointer-events-none"
+></div>
+
+<!-- Modal / Drawer -->
+<div
+  id="minimap-modal"
+  class="fixed z-50 transition-all duration-300 opacity-0 scale-95 pointer-events-none
+    max-md:inset-x-0 max-md:bottom-0 max-md:top-auto max-md:rounded-t-2xl max-md:max-h-[85vh] max-md:overflow-y-auto
+    md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[520px] md:max-w-[90vw] md:rounded-2xl"
+>
+  <div class="bg-white dark:bg-slate-800 shadow-2xl border border-slate-100 dark:border-slate-700 rounded-2xl overflow-hidden">
+    <!-- Header -->
+    <div class="flex items-center justify-between px-5 py-4 border-b border-slate-100 dark:border-slate-700">
+      <div class="flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-institucional-blue">
+          <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+          <line x1="8" y1="2" x2="8" y2="18"/>
+          <line x1="16" y1="6" x2="16" y2="22"/>
+        </svg>
+        <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100">Mapa do Documento</h3>
+      </div>
+      <button
+        id="minimap-close-btn"
+        class="flex items-center justify-center w-8 h-8 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
+        aria-label="Fechar mapa"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Grid body -->
+    <div class="p-5">
+      <p class="text-[11px] text-slate-400 dark:text-slate-500 mb-4 uppercase tracking-wider font-medium">
+        Clique em um bloco para navegar
+      </p>
+      <div class="grid grid-cols-2 gap-3">
+        {blockStats.map((block, idx) => {
+          const { accent } = block
+          const delay = idx * 60
+          return (
+            <button
+              data-minimap-block={block.id}
+              data-first-section={block.firstItemId}
+              class="minimap-block group relative flex flex-col gap-1.5 p-3 rounded-xl border-l-[3px] bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-700 text-left transition-all duration-200 hover:shadow-md hover:-translate-y-0.5"
+              style={`border-left-color: ${accent.hex}; --delay: ${delay}ms;`}
+            >
+              <!-- Active badge -->
+              <div
+                data-minimap-active-badge={block.id}
+                class="hidden absolute -top-2 -right-2 z-10 bg-institucional-green text-white text-[8px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded-full shadow-sm"
+              >
+                Você está aqui
+              </div>
+
+              <!-- Row: icon + section count -->
+              <div class="flex items-center justify-between">
+                <span class={`w-6 h-6 rounded-md flex items-center justify-center ${accent.light}`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class={accent.color}>
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="3" y1="9" x2="21" y2="9"/>
+                    <line x1="9" y1="21" x2="9" y2="9"/>
+                  </svg>
+                </span>
+                <span class="text-[10px] font-semibold text-slate-400 dark:text-slate-500 tabular-nums">
+                  {block.sectionCount} {block.sectionCount === 1 ? 'seção' : 'seções'}
+                </span>
+              </div>
+
+              <!-- Title -->
+              <span class="text-xs font-semibold text-slate-700 dark:text-slate-300 leading-tight group-hover:text-institucional-blue dark:group-hover:text-slate-100 transition-colors line-clamp-2">
+                {block.title}
+              </span>
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ allSectionIds, blockMeta: blockStats.map(b => ({ id: b.id, firstItemId: b.firstItemId })), blocksMap: BLOCKS.map(b => ({ id: b.id, items: b.items.map(i => i.id) })) }}>
+(function () {
+  // --- DOM refs ---
+  var openBtn = document.getElementById('minimap-open-btn')
+  var closeBtn = document.getElementById('minimap-close-btn')
+  var modal = document.getElementById('minimap-modal')
+  var overlay = document.getElementById('minimap-overlay')
+  var blockBtns = document.querySelectorAll('[data-minimap-block]')
+  var activeBadges = document.querySelectorAll('[data-minimap-active-badge]')
+
+  if (!openBtn || !closeBtn || !modal || !overlay) return
+
+  // --- Map section id -> block id ---
+  var sectionToBlock = {}
+  var firstSections = {}
+  for (var i = 0; i < blockMeta.length; i++) {
+    firstSections[blockMeta[i].id] = blockMeta[i].firstItemId
+  }
+  // Build section->block mapping
+  for (var bi = 0; bi < blocksMap.length; bi++) {
+    for (var si = 0; si < blocksMap[bi].items.length; si++) {
+      sectionToBlock[blocksMap[bi].items[si]] = blocksMap[bi].id
+    }
+  }
+
+  // --- State ---
+  var activeBlockId = ''
+
+  // --- Open / Close ---
+  function openMinimap() {
+    modal.classList.remove('opacity-0', 'scale-95', 'pointer-events-none')
+    modal.classList.add('opacity-100', 'scale-100')
+    overlay.classList.remove('opacity-0', 'pointer-events-none')
+    overlay.classList.add('opacity-100')
+    openBtn.classList.add('scale-0', 'opacity-0')
+    openBtn.classList.remove('scale-100', 'opacity-100')
+    // Animate blocks on open with staggered delay
+    var blocks = document.querySelectorAll('.minimap-block')
+    for (var i = 0; i < blocks.length; i++) {
+      (function (el, idx) {
+        var delay = idx * 60
+        el.style.opacity = '0'
+        el.style.transform = 'translateY(8px) scale(0.95)'
+        setTimeout(function () {
+          el.style.transition = 'opacity 0.3s ease-out, transform 0.3s ease-out'
+          el.style.opacity = '1'
+          el.style.transform = 'translateY(0) scale(1)'
+        }, delay + 50)
+      })(blocks[i], i)
+    }
+  }
+
+  function closeMinimap() {
+    modal.classList.remove('opacity-100', 'scale-100')
+    modal.classList.add('opacity-0', 'scale-95', 'pointer-events-none')
+    overlay.classList.remove('opacity-100')
+    overlay.classList.add('opacity-0', 'pointer-events-none')
+    openBtn.classList.remove('scale-0', 'opacity-0')
+    openBtn.classList.add('scale-100', 'opacity-100')
+    // Reset block animations
+    var blocks = document.querySelectorAll('.minimap-block')
+    for (var i = 0; i < blocks.length; i++) {
+      blocks[i].style.opacity = ''
+      blocks[i].style.transform = ''
+    }
+  }
+
+  openBtn.addEventListener('click', openMinimap)
+  closeBtn.addEventListener('click', closeMinimap)
+  overlay.addEventListener('click', closeMinimap)
+
+  // --- Click block to scroll ---
+  blockBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var sectionId = btn.getAttribute('data-first-section')
+      if (sectionId) {
+        var el = document.getElementById(sectionId)
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      }
+      closeMinimap()
+    })
+  })
+
+  // --- IntersectionObserver: track active block ---
+  function updateActiveBlock(sectionId) {
+    var blockId = sectionToBlock[sectionId] || ''
+    if (blockId === activeBlockId) return
+    activeBlockId = blockId
+
+    // Update badges
+    for (var i = 0; i < activeBadges.length; i++) {
+      var badge = activeBadges[i]
+      if (badge.getAttribute('data-minimap-active-badge') === blockId) {
+        badge.classList.remove('hidden')
+      } else {
+        badge.classList.add('hidden')
+      }
+    }
+
+    // Update block card active style
+    var allBlockCards = document.querySelectorAll('.minimap-block')
+    for (var j = 0; j < allBlockCards.length; j++) {
+      var card = allBlockCards[j]
+      var cardBlockId = card.getAttribute('data-minimap-block')
+      if (cardBlockId === blockId) {
+        card.classList.add('ring-2', 'ring-institucional-green/40', 'bg-institucional-lightGreen', 'dark:bg-green-950/30')
+      } else {
+        card.classList.remove('ring-2', 'ring-institucional-green/40', 'bg-institucional-lightGreen', 'dark:bg-green-950/30')
+      }
+    }
+  }
+
+  // Observe all sections
+  var observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          updateActiveBlock(entry.target.id)
+        }
+      })
+    },
+    { rootMargin: '-20% 0px -60% 0px', threshold: 0 }
+  )
+
+  // Observe all section elements
+  for (var i = 0; i < allSectionIds.length; i++) {
+    var el = document.getElementById(allSectionIds[i])
+    if (el) observer.observe(el)
+  }
+
+  // Initial check on load
+  function checkInitialSection() {
+    for (var i = 0; i < allSectionIds.length; i++) {
+      var el = document.getElementById(allSectionIds[i])
+      if (el) {
+        var rect = el.getBoundingClientRect()
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          updateActiveBlock(allSectionIds[i])
+          return
+        }
+      }
+    }
+  }
+  // Delay to let layout settle
+  setTimeout(checkInitialSection, 300)
+  window.addEventListener('load', checkInitialSection)
+})()
+</script>

@@ -1,0 +1,316 @@
+---
+import { BLOCKS, BLOCK_ACCENTS } from '@/lib/constants'
+
+interface BlockCheckData {
+  id: string
+  title: string
+  sectionCount: number
+  accent: (typeof BLOCK_ACCENTS)[keyof typeof BLOCK_ACCENTS]
+}
+
+const blockData: BlockCheckData[] = BLOCKS.map((block) => ({
+  id: block.id,
+  title: block.title,
+  sectionCount: block.items.length,
+  accent: BLOCK_ACCENTS[block.accent as keyof typeof BLOCK_ACCENTS],
+}))
+
+const totalBlocks = blockData.length
+const blockIds: string[] = blockData.map((b) => b.id)
+---
+
+<div
+  id="learning-checklist"
+  class="bg-white dark:bg-slate-800 rounded-xl shadow-md border border-slate-100 dark:border-slate-700/50 overflow-hidden"
+>
+  <!-- Colored top accent bar -->
+  <div class="h-1.5 w-full bg-gradient-to-r from-institucional-blue via-institucional-green to-purple-500"></div>
+
+  <!-- Header -->
+  <div class="flex items-center justify-between px-5 pt-5 pb-3 md:px-6 md:pt-6 md:pb-4">
+    <h3 class="text-sm font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider flex items-center gap-2.5">
+      <!-- Book/checklist icon -->
+      <span class="flex-shrink-0 w-8 h-8 rounded-lg bg-institucional-lightBlue dark:bg-blue-900/40 flex items-center justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-institucional-blue dark:text-blue-300">
+          <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>
+          <polyline points="9 9.5 11 11.5 15 7.5"/>
+        </svg>
+      </span>
+      <span>Progresso de Leitura</span>
+    </h3>
+    <span
+      id="checklist-counter"
+      class="flex-shrink-0 text-xs font-semibold tabular-nums bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-400 px-2.5 py-1 rounded-full"
+    >
+      0/{totalBlocks}
+    </span>
+  </div>
+
+  <!-- Progress bar section -->
+  <div class="px-5 md:px-6 pb-2">
+    <div class="flex items-center justify-between mb-1.5">
+      <span class="text-[10px] font-medium text-slate-400 dark:text-slate-500 uppercase tracking-wider">Blocos concluídos</span>
+      <span id="checklist-percent" class="text-[10px] font-bold text-institucional-green tabular-nums">0%</span>
+    </div>
+    <div class="w-full h-2 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
+      <div
+        id="checklist-progress-bar"
+        class="h-full rounded-full transition-all duration-700 ease-out"
+        style="width: 0%; background: linear-gradient(90deg, #009b3a, #00cc4a);"
+      ></div>
+    </div>
+  </div>
+
+  <!-- Checklist items -->
+  <ul class="px-2 pb-3 md:px-3 md:pb-4 mt-2 space-y-0.5">
+    {blockData.map((block, idx) => {
+      const { accent } = block
+      const delay = idx * 60
+      return (
+        <li
+          data-checklist-item={block.id}
+          class="checklist-item group flex items-center gap-3 p-2.5 md:p-3 rounded-lg cursor-pointer transition-all duration-200 hover:bg-slate-50 dark:hover:bg-slate-700/40"
+          style={`--item-delay: ${delay}ms; --accent-hex: ${accent.hex};`}
+        >
+          <!-- Custom checkbox -->
+          <div
+            data-checkbox={block.id}
+            class="checklist-checkbox relative flex-shrink-0 w-5 h-5 md:w-[22px] md:h-[22px] rounded-md border-2 transition-all duration-200 flex items-center justify-center bg-white dark:bg-slate-800"
+            style="border-color: var(--accent-hex);"
+          >
+            <!-- Checkmark SVG (hidden by default, shown via .checked) -->
+            <svg
+              class="checklist-checkmark hidden w-3 h-3 md:w-3.5 md:h-3.5 text-white pointer-events-none"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+
+          <!-- Block info -->
+          <div class="flex-1 min-w-0 flex items-center justify-between gap-2">
+            <span class="checklist-item-title text-sm font-medium text-slate-700 dark:text-slate-300 leading-tight truncate transition-colors duration-200 group-hover:text-institucional-blue dark:group-hover:text-slate-100">
+              {block.title}
+            </span>
+            <span
+              class={`flex-shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full leading-normal ${accent.light} ${accent.color} dark:opacity-90`}
+            >
+              {block.sectionCount}
+            </span>
+          </div>
+        </li>
+      )
+    })}
+  </ul>
+</div>
+
+<style>
+  /* === Staggered entrance === */
+  .checklist-item {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: checklist-fade-in 0.45s ease-out forwards;
+    animation-delay: var(--item-delay, 0ms);
+  }
+
+  @keyframes checklist-fade-in {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* === Custom checkbox states === */
+  .checklist-checkbox {
+    transition:
+      background-color 0.25s ease,
+      border-color 0.25s ease,
+      transform 0.2s ease,
+      box-shadow 0.25s ease;
+  }
+
+  /* Press feedback */
+  .checklist-item:active .checklist-checkbox {
+    transform: scale(0.88);
+  }
+
+  /* Checked state — green fill + white checkmark */
+  .checklist-checkbox.checked {
+    background-color: #009b3a !important;
+    border-color: #009b3a !important;
+  }
+
+  .checklist-checkbox.checked .checklist-checkmark {
+    display: block;
+  }
+
+  /* Item visual feedback when checked */
+  .checklist-item.checked {
+    opacity: 0.8;
+  }
+
+  .checklist-item.checked .checklist-item-title {
+    color: #94a3b8;
+    text-decoration: line-through;
+    text-decoration-color: #009b3a;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 3px;
+  }
+
+  .dark .checklist-item.checked .checklist-item-title {
+    color: #64748b;
+    text-decoration-color: #22c55e;
+  }
+
+  /* === Spark animation on check (CSS-only confetti-like burst) === */
+  @keyframes checklist-spark {
+    0% {
+      box-shadow:
+        0 0 0 0 rgba(0, 155, 58, 0.5),
+        0 0 0 0 rgba(0, 155, 58, 0.2);
+      transform: scale(1);
+    }
+    30% {
+      transform: scale(1.2);
+    }
+    60% {
+      box-shadow:
+        0 0 0 10px rgba(0, 155, 58, 0),
+        0 0 0 20px rgba(0, 155, 58, 0);
+      transform: scale(0.95);
+    }
+    100% {
+      box-shadow:
+        0 0 0 0 rgba(0, 155, 58, 0),
+        0 0 0 0 rgba(0, 155, 58, 0);
+      transform: scale(1);
+    }
+  }
+
+  .checklist-checkbox.spark {
+    animation: checklist-spark 0.55s ease-out;
+  }
+
+  /* === Progress bar gradient pulse at 100% === */
+  @keyframes progress-complete {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  #checklist-progress-bar.complete {
+    animation: progress-complete 1.5s ease-in-out infinite;
+  }
+</style>
+
+<script is:inline define:vars={{ blockIds }}>
+(function () {
+  'use strict'
+  var STORAGE_KEY = 'caderno-checklist'
+
+  // --- State ---
+  var state = {}
+
+  // Load saved state
+  try {
+    var saved = localStorage.getItem(STORAGE_KEY)
+    if (saved) {
+      state = JSON.parse(saved)
+      // Validate it's an object
+      if (typeof state !== 'object' || state === null || Array.isArray(state)) {
+        state = {}
+      }
+    }
+  } catch (_) {}
+
+  // --- DOM refs ---
+  var progressBar = document.getElementById('checklist-progress-bar')
+  var counter = document.getElementById('checklist-counter')
+  var percentEl = document.getElementById('checklist-percent')
+  var total = blockIds.length
+
+  // --- Helpers ---
+  function save() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)) } catch (_) {}
+  }
+
+  function countChecked() {
+    var n = 0
+    for (var i = 0; i < blockIds.length; i++) {
+      if (state[blockIds[i]]) n++
+    }
+    return n
+  }
+
+  function updateUI() {
+    var checked = countChecked()
+    var pct = total > 0 ? Math.round((checked / total) * 100) : 0
+
+    if (progressBar) {
+      progressBar.style.width = pct + '%'
+      if (pct === 100) {
+        progressBar.classList.add('complete')
+      } else {
+        progressBar.classList.remove('complete')
+      }
+    }
+    if (counter) counter.textContent = checked + '/' + total
+    if (percentEl) percentEl.textContent = pct + '%'
+  }
+
+  function applyState() {
+    for (var i = 0; i < blockIds.length; i++) {
+      var id = blockIds[i]
+      var item = document.querySelector('[data-checklist-item="' + id + '"]')
+      var checkbox = document.querySelector('[data-checkbox="' + id + '"]')
+
+      if (state[id]) {
+        if (item) item.classList.add('checked')
+        if (checkbox) checkbox.classList.add('checked')
+      } else {
+        if (item) item.classList.remove('checked')
+        if (checkbox) checkbox.classList.remove('checked')
+      }
+    }
+    updateUI()
+  }
+
+  function toggleBlock(id) {
+    state[id] = !state[id]
+    save()
+    applyState()
+
+    // Spark on the checkbox when checking
+    if (state[id]) {
+      var cb = document.querySelector('[data-checkbox="' + id + '"]')
+      if (cb) {
+        cb.classList.remove('spark')
+        // Force reflow to restart animation
+        void cb.offsetWidth
+        cb.classList.add('spark')
+      }
+    }
+  }
+
+  // --- Attach click handlers ---
+  for (var i = 0; i < blockIds.length; i++) {
+    ;(function (id) {
+      var el = document.querySelector('[data-checklist-item="' + id + '"]')
+      if (el) {
+        el.addEventListener('click', function (e) {
+          // Don't toggle if user clicked a link or button inside
+          if (e.target.closest('a, button')) return
+          toggleBlock(id)
+        })
+      }
+    })(blockIds[i])
+  }
+
+  // --- Init ---
+  applyState()
+})()
+</script>

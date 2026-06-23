@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1600" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#004b87"/>
+      <stop offset="100%" stop-color="#003863"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#009b3a"/>
+      <stop offset="100%" stop-color="#00c853"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#009b3a" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#009b3a" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="1600" fill="url(#bg)"/>
+  <rect width="1200" height="1600" fill="url(#glow)"/>
+
+  <g opacity="0.08" stroke="#ffffff" stroke-width="1" fill="none">
+    <path d="M 0 400 L 1200 400"/>
+    <path d="M 0 600 L 1200 600"/>
+    <path d="M 0 800 L 1200 800"/>
+    <path d="M 0 1000 L 1200 1000"/>
+    <path d="M 0 1200 L 1200 1200"/>
+    <path d="M 300 0 L 300 1600"/>
+    <path d="M 600 0 L 600 1600"/>
+    <path d="M 900 0 L 900 1600"/>
+  </g>
+
+  <rect x="0" y="0" width="1200" height="20" fill="url(#accent)"/>
+
+  <g transform="translate(80, 100)">
+    <text x="0" y="0" font-family="Inter, sans-serif" font-size="18" font-weight="600" fill="#a8c8e8" letter-spacing="1">SEDSODH — RJ</text>
+    <text x="0" y="26" font-family="Inter, sans-serif" font-size="13" font-weight="500" fill="#7fa5c8" letter-spacing="0.5">Secretaria de Desenvolvimento Social e Direitos Humanos</text>
+  </g>
+
+  <g transform="translate(600, 350)">
+    <circle cx="0" cy="0" r="180" fill="none" stroke="#009b3a" stroke-width="3" opacity="0.4"/>
+    <circle cx="0" cy="0" r="140" fill="none" stroke="#009b3a" stroke-width="2" opacity="0.6"/>
+    <circle cx="0" cy="0" r="100" fill="none" stroke="#009b3a" stroke-width="1.5" opacity="0.8"/>
+
+    <g transform="translate(0, -30)">
+      <path d="M 0 -50 C 30 -50 50 -30 50 0 C 50 30 0 80 0 80 C 0 80 -50 30 -50 0 C -50 -30 -30 -50 0 -50 Z"
+            fill="#009b3a" opacity="0.9"/>
+      <circle cx="0" cy="0" r="18" fill="#ffffff"/>
+      <circle cx="0" cy="0" r="10" fill="#004b87"/>
+    </g>
+  </g>
+
+  <g transform="translate(600, 750)" text-anchor="middle">
+    <text x="0" y="0" font-family="Inter, sans-serif" font-size="22" font-weight="600" fill="#a8c8e8" letter-spacing="4">GUIA DE IMPLANTAÇÃO DA</text>
+    <text x="0" y="100" font-family="Inter, sans-serif" font-size="78" font-weight="800" fill="#ffffff" letter-spacing="-2">Vigilância</text>
+    <text x="0" y="180" font-family="Inter, sans-serif" font-size="78" font-weight="800" fill="#009b3a" letter-spacing="-2">Socioassistencial</text>
+    <text x="0" y="240" font-family="Inter, sans-serif" font-size="26" font-weight="500" fill="#cfe5d8">nos Municípios</text>
+  </g>
+
+  <image x="500" y="1030" href="/images/logo_vigilancia_coovig.svg" width="200" height="200" />
+
+  <g transform="translate(600, 1260)" text-anchor="middle">
+    <line x1="-150" y1="0" x2="150" y2="0" stroke="#009b3a" stroke-width="2"/>
+    <text x="0" y="40" font-family="Inter, sans-serif" font-size="20" font-weight="600" fill="#ffffff" letter-spacing="3">4 ETAPAS PARA A FORMALIZAÇÃO</text>
+    <text x="0" y="70" font-family="Inter, sans-serif" font-size="16" font-weight="400" fill="#a8c8e8">Da formalização à consolidação da Vigilância Socioassistencial</text>
+  </g>
+
+  <g transform="translate(80, 1450)">
+    <rect x="0" y="0" width="1040" height="100" fill="#003863" rx="8"/>
+    <text x="40" y="40" font-family="Inter, sans-serif" font-size="20" font-weight="700" fill="#ffffff">COOVIG</text>
+    <text x="40" y="68" font-family="Inter, sans-serif" font-size="14" font-weight="400" fill="#a8c8e8">Coordenação Estadual de Vigilância Socioassistencial</text>
+    <text x="1000" y="40" font-family="Inter, sans-serif" font-size="14" font-weight="600" fill="#a8c8e8" text-anchor="end">SUAS / RJ</text>
+    <text x="1000" y="68" font-family="Inter, sans-serif" font-size="12" font-weight="400" fill="#7fa5c8" text-anchor="end">Versão 1.0 — 2026</text>
+  </g>
+
+  <rect x="0" y="1580" width="1200" height="20" fill="url(#accent)"/>
+</svg>

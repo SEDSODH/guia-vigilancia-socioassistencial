@@ -1,0 +1,188 @@
+---
+import { BLOCKS, FINAL_SECTIONS, BLOCK_ACCENTS } from '@/lib/constants'
+
+export interface Props {
+  /** Título do bloco atual (fallback se IntersectionObserver não encontrar seção) */
+  blockTitle?: string
+  /** Cor do bloco em hexadecimal (fallback) */
+  blockColor?: string
+  /** Título da seção atual (fallback opcional) */
+  sectionTitle?: string
+}
+
+const { blockTitle, blockColor = '#004b87', sectionTitle } = Astro.props
+
+// --- Build section-to-block mapping for the script ---
+
+interface SectionInfo {
+  blockTitle: string
+  blockColor: string
+  sectionTitle: string
+}
+
+const INTRO_IDS = ['capa', 'expediente', 'sumario', 'apresentacao']
+const INTRO_TITLES: Record<string, string> = {
+  capa: 'Capa',
+  expediente: 'Expediente',
+  sumario: 'Sumário',
+  apresentacao: 'Apresentação',
+}
+
+const allSectionIds: string[] = [
+  ...INTRO_IDS,
+  ...BLOCKS.flatMap((b) => b.items.map((i) => i.id)),
+  ...FINAL_SECTIONS.map((s) => s.id),
+]
+
+const sectionData: Record<string, SectionInfo> = {}
+
+for (const id of INTRO_IDS) {
+  sectionData[id] = {
+    blockTitle: 'Introdução',
+    blockColor: '#004b87',
+    sectionTitle: INTRO_TITLES[id],
+  }
+}
+
+for (const block of BLOCKS) {
+  const accent = BLOCK_ACCENTS[block.accent as keyof typeof BLOCK_ACCENTS]
+  const bc = accent?.hex || '#004b87'
+  for (const item of block.items) {
+    sectionData[item.id] = {
+      blockTitle: block.title,
+      blockColor: bc,
+      sectionTitle: item.title,
+    }
+  }
+}
+
+for (const s of FINAL_SECTIONS) {
+  sectionData[s.id] = {
+    blockTitle: 'Final',
+    blockColor: '#1e293b',
+    sectionTitle: s.title,
+  }
+}
+
+// Default values from the first section in the document
+const defaultSection = sectionData[allSectionIds[0]]
+const initBlockTitle = defaultSection?.blockTitle || blockTitle || 'Introdução'
+const initSectionTitle = defaultSection?.sectionTitle || sectionTitle || ''
+---
+
+<div
+  id="progress-badge"
+  class="fixed bottom-6 right-6 z-40 rounded-lg shadow-lg border border-slate-200/70 dark:border-slate-700/50 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm transition-all duration-500 ease-out opacity-0 translate-y-4 hover:shadow-xl no-print"
+  style={`border-left: 4px solid ${defaultSection?.blockColor || blockColor};`}
+>
+  <!-- Mobile: compact -->
+  <div id="badge-mobile" class="flex items-center gap-2 p-3 md:hidden">
+    <span class="flex-shrink-0 leading-none animate-pulse-slow">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-slate-500 dark:text-slate-400">
+        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+        <circle cx="12" cy="10" r="3"/>
+      </svg>
+    </span>
+    <span id="badge-block-mobile" class="text-xs font-bold text-slate-800 dark:text-slate-200 truncate max-w-[130px]">{initBlockTitle}</span>
+  </div>
+
+  <!-- Desktop: detailed -->
+  <div id="badge-desktop" class="hidden md:flex items-center gap-3 p-3">
+    <span class="flex-shrink-0 leading-none animate-pulse-slow">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-slate-500 dark:text-slate-400">
+        <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+        <circle cx="12" cy="10" r="3"/>
+      </svg>
+    </span>
+    <div class="min-w-0 flex flex-col gap-0.5">
+      <div class="flex items-center gap-1.5">
+        <span id="badge-block" class="text-xs font-bold text-slate-800 dark:text-slate-200 leading-tight">{initBlockTitle}</span>
+        <span id="badge-section-num" class="text-[10px] font-medium text-slate-400 dark:text-slate-500 leading-tight">· §1</span>
+      </div>
+      <span id="badge-section" class="text-[10px] text-slate-500 dark:text-slate-400 truncate max-w-[180px] leading-tight">{initSectionTitle}</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+  }
+  .animate-pulse-slow {
+    animation: pulse-slow 2.5s ease-in-out infinite;
+  }
+
+  #progress-badge {
+    transition:
+      opacity 0.5s ease-out,
+      transform 0.5s ease-out,
+      border-left-color 0.4s ease,
+      box-shadow 0.3s ease;
+  }
+  #progress-badge.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+
+<script is:inline define:vars={{ allSectionIds, sectionData }}>
+(function() {
+  var badge = document.getElementById('progress-badge')
+  if (!badge) return
+
+  var blockEl = document.getElementById('badge-block')
+  var blockMobileEl = document.getElementById('badge-block-mobile')
+  var sectionEl = document.getElementById('badge-section')
+  var sectionNumEl = document.getElementById('badge-section-num')
+  var activeId = ''
+
+  // Fade in on mount
+  setTimeout(function() {
+    badge.classList.add('visible')
+  }, 400)
+
+  function updateBadge(id) {
+    if (id === activeId) return
+    activeId = id
+
+    var info = sectionData[id]
+    if (!info) {
+      badge.style.display = 'none'
+      return
+    }
+
+    badge.style.display = 'block'
+    badge.style.borderLeftColor = info.blockColor
+
+    var shortTitle = info.blockTitle.replace(/^Bloco \d+ - /, '')
+
+    var idx = allSectionIds.indexOf(id)
+    var sectionNum = idx >= 0 ? idx + 1 : 0
+
+    if (blockEl) blockEl.textContent = shortTitle
+    if (blockMobileEl) blockMobileEl.textContent = shortTitle
+    if (sectionEl) sectionEl.textContent = info.sectionTitle
+    if (sectionNumEl) sectionNumEl.textContent = '\u00B7 \u00A7' + sectionNum
+  }
+
+  var observer = new IntersectionObserver(function(entries) {
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].isIntersecting) {
+        updateBadge(entries[i].target.id)
+        break
+      }
+    }
+  }, { rootMargin: '-15% 0px -65% 0px', threshold: 0 })
+
+  for (var i = 0; i < allSectionIds.length; i++) {
+    var el = document.getElementById(allSectionIds[i])
+    if (el) observer.observe(el)
+  }
+
+  // Clean up on the beforeunload event (not perfect, but avoids leaks)
+  window.addEventListener('beforeunload', function() {
+    observer.disconnect()
+  })
+})()
+</script>

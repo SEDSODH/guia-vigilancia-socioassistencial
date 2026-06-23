@@ -1,0 +1,21 @@
+---
+import { goldenRules } from '@/data/regrasOuro'
+import GoldenRulesGrid from '@/components/astro/content/GoldenRulesGrid.astro'
+---
+<section id="regras-ouro" class="animate-scale relative overflow-hidden rounded-xl shadow-md">
+  <div class="bg-institucional-blue text-white px-6 py-8 md:px-10 md:py-12">
+    <div class="absolute top-0 right-0 opacity-10 pointer-events-none">
+      <svg xmlns="http://www.w3.org/2000/svg" width="384" height="384" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="-mt-16 -mr-16"><circle cx="12" cy="12" r="10"/><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    </div>
+    <div class="relative z-10">
+    <header class="mb-10 border-b border-blue-400/50 pb-6">
+      <h2 class="text-3xl md:text-4xl font-extrabold flex items-center text-white">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="currentColor" stroke="none" class="mr-4 text-yellow-400"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        10 Regras de Ouro
+      </h2>
+      <p class="text-blue-200 mt-2 text-lg">Para a Boa Implantação da Vigilância Socioassistencial</p>
+    </header>
+    <GoldenRulesGrid rules={goldenRules} />
+    </div>
+  </div>
+</section>

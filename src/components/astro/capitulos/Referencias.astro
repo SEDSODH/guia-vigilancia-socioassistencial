@@ -1,0 +1,47 @@
+---
+import SectionHeader from '@/components/astro/layout/SectionHeader.astro'
+import InfoCard from '@/components/astro/content/InfoCard.astro'
+import AlertBox from '@/components/astro/content/AlertBox.astro'
+import { referenciasGroups } from '@/data/referencias'
+
+const accentMap: Record<number, 'blue' | 'purple' | 'slate' | 'green'> = {
+  0: 'blue',
+  1: 'purple',
+  2: 'slate',
+  3: 'green',
+}
+
+const groups = referenciasGroups.map((g, i) => ({
+  ...g,
+  number: String(i + 1),
+}))
+---
+<div id="referencias" class="mb-16 animate-on-scroll">
+  <SectionHeader title="Referências Bibliográficas" />
+
+  <div class="mb-8">
+    <AlertBox variant="info" title="Sobre as Referências">
+      <p class="text-sm leading-relaxed">
+        Esta seção reúne as principais referências normativas, técnicas e
+        documentais utilizadas na elaboração deste guia. As fontes estão
+        organizadas por categoria para facilitar a consulta e o aprofundamento
+        nos temas abordados em cada capítulo.
+      </p>
+    </AlertBox>
+  </div>
+
+  <div class="space-y-6">
+    {groups.map((group, index) => {
+      const accent = accentMap[index] ?? 'blue'
+      return (
+        <InfoCard title={`${group.number}. ${group.title}`} accent={accent}>
+          <ul class="space-y-2 text-xs text-slate-700 dark:text-slate-300 list-disc list-inside">
+            {group.items.map((item) => (
+              <li class="leading-relaxed">{item}</li>
+            ))}
+          </ul>
+        </InfoCard>
+      )
+    })}
+  </div>
+</div>

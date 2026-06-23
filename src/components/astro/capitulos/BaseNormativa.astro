@@ -1,0 +1,94 @@
+---
+import SectionHeader from '@/components/astro/layout/SectionHeader.astro'
+import Timeline from '@/components/astro/content/Timeline.astro'
+import InfoCard from '@/components/astro/content/InfoCard.astro'
+import ComparisonTable from '@/components/astro/content/ComparisonTable.astro'
+import AlertBox from '@/components/astro/content/AlertBox.astro'
+import { normativos } from '@/data/normativos'
+
+const purpleIds = ['loas-8742-1993', 'lei-12435-2011']
+
+const timelineItems = normativos.map((n) => {
+  let variant: 'default' | 'blue' | 'green' | 'purple' = 'default'
+  if (purpleIds.includes(n.id)) {
+    variant = 'purple'
+  } else if (n.accentColor === 'green') {
+    variant = 'green'
+  } else if (n.accentColor === 'slate') {
+    variant = 'blue'
+  }
+  const dateMatch = n.title.match(/(\d{4})/)
+  return {
+    title: n.title,
+    date: dateMatch ? dateMatch[1] : undefined,
+    description: n.description,
+    variant,
+  }
+})
+
+const competenciasRows = [
+  {
+    item: 'União — Instituir e normatizar a PNAS',
+    status: 'pode' as const,
+    condition: 'Define as diretrizes nacionais, coordena o SUAS e edita normas gerais de abrangência federal.',
+  },
+  {
+    item: 'União — Cofinanciar a política de assistência social',
+    status: 'pode' as const,
+    condition: 'Repassa recursos do Fundo Nacional de Assistência Social (FNAS) aos estados e municípios.',
+  },
+  {
+    item: 'Estado — Organizar a Vigilância no âmbito estadual',
+    status: 'pode' as const,
+    condition: 'Coordena a gestão estadual, normatiza procedimentos complementares e apoia tecnicamente os municípios.',
+  },
+  {
+    item: 'Estado — Cofinanciar serviços e benefícios',
+    status: 'condicao' as const,
+    condition: 'Depende de Plano de Ação aprovado pelo Conselho Estadual e contrapartida orçamentária própria.',
+  },
+  {
+    item: 'Município — Executar a Vigilância Socioassistencial',
+    status: 'pode' as const,
+    condition: 'Operacionaliza coleta de dados, monitoramento territorial, diagnóstico e análise situacional.',
+  },
+  {
+    item: 'Município — Cofinanciar a proteção social básica',
+    status: 'condicao' as const,
+    condition: 'Contrapartida municipal obrigatória com aplicação mínima de recursos próprios no FMAS.',
+  },
+]
+---
+<div id="base-normativa" class="mb-16 animate-on-scroll">
+  <SectionHeader title="2. Base Normativa" />
+
+  <div class="prose max-w-none text-slate-700 dark:text-slate-300 mb-10 text-base leading-relaxed">
+    <p>A Vigilância Socioassistencial tem sua base normativa em um conjunto articulado de leis, políticas e normas operacionais que organizam a Assistência Social como política pública e definem o SUAS como sistema de proteção social.</p>
+    <p>Os principais instrumentos normativos que fundamentam a Vigilância Socioassistencial estão organizados a seguir em ordem cronológica, destacando os marcos legais mais relevantes para a sua estruturação.</p>
+  </div>
+
+  <Timeline items={timelineItems} class="mb-10" />
+
+  <div class="space-y-6">
+    <InfoCard title="Hierarquia das Normas do SUAS" accent="blue">
+      <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+        A legislação do SUAS organiza-se em uma hierarquia normativa que determina a abrangência e o poder de cada instrumento:
+      </p>
+      <ul class="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-400">
+        <li><strong class="text-slate-800 dark:text-slate-200">Federal</strong> — Leis e Decretos da União que estabelecem as diretrizes nacionais (LOAS, PNAS, NOB/SUAS).</li>
+        <li><strong class="text-slate-800 dark:text-slate-200">Estadual</strong> — Leis e Resoluções estaduais que regulamentam a política no âmbito do estado.</li>
+        <li><strong class="text-slate-800 dark:text-slate-200">Municipal</strong> — Leis e Planos Municipais que operacionalizam a assistência no território.</li>
+        <li><strong class="text-slate-800 dark:text-slate-200">Infralegal</strong> — Resoluções do CNAS, CIT e orientações técnicas do MDS.</li>
+      </ul>
+    </InfoCard>
+
+    <h4 class="text-lg font-bold text-slate-800 dark:text-slate-200 mt-8 mb-3">Competências por Ente Federativo</h4>
+    <ComparisonTable rows={competenciasRows} />
+
+    <AlertBox variant="warning" title="Atenção à Legislação Vigente">
+      <p class="text-sm leading-relaxed">
+        As normas do SUAS são atualizadas periodicamente. Consulte sempre os <strong>diários oficiais</strong>, o <strong>site do MDS</strong> e as <strong>Resoluções do CNAS</strong> para verificar a versão mais recente de cada instrumento normativo antes de utilizá-lo como referência técnica ou jurídica.
+      </p>
+    </AlertBox>
+  </div>
+</div>

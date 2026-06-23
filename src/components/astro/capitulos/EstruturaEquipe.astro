@@ -1,0 +1,107 @@
+---
+import SectionHeader from '@/components/astro/layout/SectionHeader.astro'
+import { competenciasEquipe } from '@/data/competenciasEquipe'
+import AlertBox from '@/components/astro/content/AlertBox.astro'
+
+const compColors = [
+  { border: 'border-l-institucional-blue', bg: 'bg-institucional-lightBlue', iconBg: 'bg-institucional-blue', hex: '#004b87', label: 'azul' },
+  { border: 'border-l-institucional-green', bg: 'bg-institucional-lightGreen', iconBg: 'bg-institucional-green', hex: '#009b3a', label: 'verde' },
+  { border: 'border-l-cyan-500', bg: 'bg-cyan-50', iconBg: 'bg-cyan-500', hex: '#0891b2', label: 'ciano' },
+  { border: 'border-l-purple-500', bg: 'bg-purple-50', iconBg: 'bg-purple-500', hex: '#7c3aed', label: 'roxo' },
+  { border: 'border-l-pink-500', bg: 'bg-pink-50', iconBg: 'bg-pink-500', hex: '#be185d', label: 'rosa' },
+]
+
+const compIcons = [
+  '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>',
+  '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
+  '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>',
+  '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>',
+  '<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>',
+]
+---
+<div id="estrutura-equipe" class="mb-16 animate-on-scroll">
+  <SectionHeader title="7. Estruturação da Equipe" />
+  <div class="prose max-w-none text-slate-700 dark:text-slate-300 space-y-6 text-base leading-relaxed">
+    <p class="text-lg"><strong>Objetivo:</strong> garantir capacidade técnica para execução das atividades da Vigilância Socioassistencial.</p>
+  </div>
+
+  <div class="mt-8 bg-white dark:bg-slate-800 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+    <div class="flex items-center gap-2 mb-4">
+      <div class="w-1 h-6 bg-institucional-blue rounded-full"></div>
+      <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200">Ações da Etapa 2</h3>
+    </div>
+    <ul class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300 bg-institucional-lightBlue/40 dark:bg-slate-700/40 p-3 rounded-lg">
+        <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-institucional-blue" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Identificar profissionais disponíveis na estrutura da Secretaria</span>
+      </li>
+      <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300 bg-institucional-lightGreen/40 dark:bg-slate-700/40 p-3 rounded-lg">
+        <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-institucional-green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <span>Designar equipe de referência para a Vigilância</span>
+      </li>
+      <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300 bg-cyan-50 dark:bg-slate-700/40 p-3 rounded-lg">
+        <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-cyan-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <span>Definir responsabilidades individuais dos integrantes</span>
+      </li>
+      <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300 bg-purple-50 dark:bg-slate-700/40 p-3 rounded-lg">
+        <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-purple-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        <span>Promover capacitações sobre Vigilância Socioassistencial</span>
+      </li>
+      <li class="flex items-start gap-3 text-sm text-slate-700 dark:text-slate-300 bg-pink-50 dark:bg-slate-700/40 p-3 rounded-lg md:col-span-2">
+        <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-pink-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <span>Construir Plano de Trabalho Anual com metas, produtos e cronograma</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="mt-8">
+    <div class="flex items-center gap-2 mb-4">
+      <div class="w-1 h-6 bg-institucional-blue rounded-full"></div>
+      <h3 class="text-lg font-bold text-slate-800 dark:text-slate-200">Competências Desejáveis da Equipe</h3>
+    </div>
+    <p class="text-slate-700 dark:text-slate-300 mb-6 pl-4 border-l-2 border-slate-300 dark:border-slate-600 italic">A equipe da Vigilância deve reunir, no conjunto de seus integrantes, as seguintes competências:</p>
+
+    <div class="space-y-4">
+      {competenciasEquipe.map((comp, idx) => {
+        const c = compColors[idx % compColors.length]
+        return (
+          <div class={`bg-white dark:bg-slate-800 border-l-4 ${c.border} border border-slate-200 dark:border-slate-700 rounded-xl p-5 shadow-sm hover:shadow-md transition-all`}>
+            <div class="flex items-start gap-4">
+              <div class={`flex-shrink-0 w-10 h-10 rounded-lg ${c.iconBg} flex items-center justify-center text-white shadow-sm`} set:html={compIcons[idx]} />
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 mb-1">
+                  <h4 class="text-base font-bold text-slate-800 dark:text-slate-200">{comp.area}</h4>
+                </div>
+                <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">{comp.descricao}</p>
+                <ul class="space-y-1.5 text-sm text-slate-700 dark:text-slate-300">
+                  {comp.atividades.map((at) => (
+                    <li class="flex items-start gap-2">
+                      <svg class="w-4 h-4 mt-0.5 flex-shrink-0 text-slate-400 dark:text-slate-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/></svg>
+                      <span>{at}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  </div>
+
+  <div class="mt-8">
+    <AlertBox variant="success" title="Produtos Esperados">
+      <ul class="list-disc list-inside space-y-1.5">
+        <li>Equipe constituída e designada formalmente</li>
+        <li>Plano de trabalho definido com metas, produtos e cronograma</li>
+        <li>Capacitações realizadas ou programadas</li>
+      </ul>
+    </AlertBox>
+  </div>
+
+  <div class="mt-8">
+    <AlertBox variant="warning" title="Em municípios de pequeno porte">
+      <p>Em municípios com reduzida estrutura administrativa, é possível que a equipe da Vigilância acumule outras funções. Recomenda-se, contudo, que haja <strong>designação formal de responsável técnico</strong> com dedicação mínima suficiente para coordenar as ações da Vigilância, mesmo que compartilhada com outras funções.</p>
+    </AlertBox>
+  </div>
+</div>
