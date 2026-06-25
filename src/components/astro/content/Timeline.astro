@@ -87,6 +87,10 @@ const badges: Record<string, string> = {
     padding-left: 3.5rem;
   }
 
+  @media (max-width: 767px) {
+    .timeline-container { padding-left: 2.5rem; }
+  }
+
   .timeline-line {
     position: absolute;
     left: 1.75rem;
@@ -96,6 +100,10 @@ const badges: Record<string, string> = {
     border-radius: 2px;
     background: linear-gradient(to bottom, #64748b, #3b82f6, #22c55e, #a855f7);
     transform: translateX(-50%);
+  }
+
+  @media (max-width: 767px) {
+    .timeline-line { left: 1.25rem; }
   }
 
   .timeline-item {
@@ -115,6 +123,10 @@ const badges: Record<string, string> = {
     border-radius: 50%;
     z-index: 1;
     box-shadow: 0 0 0 4px white, 0 2px 4px rgb(0 0 0 / 0.15);
+  }
+
+  @media (max-width: 767px) {
+    .timeline-dot { left: -1.5rem; width: 0.875rem; height: 0.875rem; }
   }
 
   /* ============================================ */
@@ -138,6 +150,10 @@ const badges: Record<string, string> = {
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   }
 
+  @media (max-width: 767px) {
+    .timeline-card { padding: 0.75rem 1rem; gap: 0.75rem; }
+  }
+
   /* ============================================ */
   /* ÍCONE DO CARD                                */
   /* ============================================ */
@@ -151,6 +167,10 @@ const badges: Record<string, string> = {
     justify-content: center;
     flex-shrink: 0;
     color: white;
+  }
+
+  @media (max-width: 767px) {
+    .card-icon { width: 40px; height: 40px; border-radius: 0.5rem; }
   }
 
   /* ============================================ */

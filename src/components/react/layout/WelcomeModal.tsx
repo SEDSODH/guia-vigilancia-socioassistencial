@@ -192,7 +192,7 @@ export function WelcomeModal({ forceShow = false }: WelcomeModalProps) {
         )}
       >
         {/* ── Header ──────────────────────────────────────────────────── */}
-        <div className="relative p-6 pb-4 border-b border-slate-100 dark:border-slate-800">
+        <div className="relative p-4 sm:p-6 pb-3 sm:pb-4 border-b border-slate-100 dark:border-slate-800">
           {/* Accent gradient bar */}
           <div
             className="absolute top-0 left-0 right-0 h-1.5 rounded-t-2xl bg-gradient-to-r from-institucional-blue via-institucional-blue/70 to-institucional-green pointer-events-none"
@@ -234,7 +234,7 @@ export function WelcomeModal({ forceShow = false }: WelcomeModalProps) {
         </div>
 
         {/* ── Body ───────────────────────────────────────────────────── */}
-        <div className="p-6 space-y-5">
+        <div className="px-4 py-5 sm:p-6 space-y-5">
           {/* Descrição */}
           <p
             id="welcome-description"
@@ -326,7 +326,7 @@ export function WelcomeModal({ forceShow = false }: WelcomeModalProps) {
 
         {/* ── Footer ─────────────────────────────────────────────────── */}
         <div
-          className="px-6 pb-5 pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-4 flex-wrap animate-slide-down"
+          className="px-4 sm:px-6 pb-4 sm:pb-5 pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-4 flex-wrap animate-slide-down"
           style={{ '--delay': '400ms' } as React.CSSProperties}
         >
           <label className="flex items-center gap-2 cursor-pointer group">
