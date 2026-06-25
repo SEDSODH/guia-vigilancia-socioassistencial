@@ -1,0 +1,87 @@
+---
+import SectionHeader from '@/components/astro/layout/SectionHeader.astro'
+import AlertBox from '@/components/astro/content/AlertBox.astro'
+import { checklistEtapas } from '@/data/checklist'
+
+const etapaColors = [
+  { border: 'border-l-institucional-blue', bg: 'bg-institucional-lightBlue/30', badge: 'bg-institucional-blue', text: 'text-institucional-blue' },
+  { border: 'border-l-institucional-green', bg: 'bg-institucional-lightGreen/30', badge: 'bg-institucional-green', text: 'text-institucional-green' },
+  { border: 'border-l-cyan-500', bg: 'bg-cyan-50', badge: 'bg-cyan-500', text: 'text-cyan-600' },
+  { border: 'border-l-purple-500', bg: 'bg-purple-50', badge: 'bg-purple-500', text: 'text-purple-600' },
+  { border: 'border-l-pink-500', bg: 'bg-pink-50', badge: 'bg-pink-500', text: 'text-pink-600' },
+  { border: 'border-l-amber-500', bg: 'bg-amber-50', badge: 'bg-amber-500', text: 'text-amber-600' },
+]
+---
+
+<div id="checklist" class="mb-16 animate-on-scroll">
+  <SectionHeader title="Checklist de Implantação" subtitle="12 etapas para estruturar a Vigilância Socioassistencial no município" accent="green" />
+
+  <div class="prose max-w-none text-slate-700 dark:text-slate-300 space-y-4 text-base leading-relaxed mb-6">
+    <p>Este checklist operacional reúne as <strong>12 etapas</strong> fundamentais para a implantação da Vigilância Socioassistencial, desde a formalização até a consolidação como função permanente do SUAS. Utilize-o como ferramenta de <strong>acompanhamento prático</strong> do progresso da implantação no seu município.</p>
+  </div>
+
+  <div class="space-y-4">
+    {checklistEtapas.map((etapa) => {
+      const c = etapaColors[(etapa.etapa - 1) % etapaColors.length]
+      return (
+        <div class={`bg-white dark:bg-slate-800 border ${c.border} border-slate-200 dark:border-slate-700 rounded-xl p-6 shadow-sm hover:shadow-md transition-all`}>
+          <!-- Cabeçalho da etapa -->
+          <div class="flex items-start gap-3 mb-4">
+            <span class={`flex-shrink-0 w-8 h-8 rounded-lg ${c.badge} text-white flex items-center justify-center text-sm font-bold shadow-sm`}>
+              {etapa.etapa}
+            </span>
+            <div class="flex-1 min-w-0">
+              <h3 class="text-base font-bold text-slate-800 dark:text-slate-200">
+                {etapa.titulo}
+              </h3>
+              <p class="text-sm text-slate-500 dark:text-slate-400 mt-0.5">
+                <strong>Objetivo:</strong> {etapa.objetivo}
+              </p>
+            </div>
+          </div>
+
+          <!-- Itens (checklist) -->
+          <ul class="space-y-2 mb-4">
+            {etapa.items.map((item) => (
+              <li class="flex items-start gap-2.5 text-sm text-slate-700 dark:text-slate-300">
+                <svg class="w-4 h-4 mt-0.5 flex-shrink-0 text-slate-400 dark:text-slate-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>
+                <span>
+                  {item.text}
+                  {item.descricao && (
+                    <span class="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">{item.descricao}</span>
+                  )}
+                </span>
+              </li>
+            ))}
+          </ul>
+
+          <!-- Produtos esperados -->
+          <div class={`${c.bg} rounded-lg p-3`}>
+            <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              Produtos esperados
+            </p>
+            <div class="flex flex-wrap gap-1.5">
+              {etapa.produtos.map((produto) => (
+                <span class={`inline-block px-2.5 py-1 rounded-full text-xs font-medium ${c.text} ${c.bg} border ${c.border.replace('border-l-', 'border-')}`}>
+                  {produto}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      )
+    })}
+  </div>
+
+  <div class="mt-6">
+    <AlertBox variant="info" title="Como usar este checklist">
+      <ul class="list-disc list-inside space-y-1 text-sm">
+        <li>Marque cada item conforme for concluído</li>
+        <li>As etapas são <strong>sequenciais e interdependentes</strong> — complete uma antes de avançar para a próxima</li>
+        <li>Os produtos esperados servem como <strong>evidência de conclusão</strong> de cada etapa</li>
+        <li>Adapte prazos e escopo conforme a <strong>realidade do seu município</strong></li>
+      </ul>
+    </AlertBox>
+  </div>
+</div>

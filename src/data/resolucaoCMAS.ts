@@ -1,5 +1,5 @@
 export const resolucaoCMAS = {
-  titulo: 'RESOLUÇÃO CMAS Nº ____/2026',
+  titulo: 'RESOLUÇÃO CMAS Nº ____/____',
   ementa:
     'Reconhece e apoia a institucionalização da Vigilância Socioassistencial no âmbito municipal e dá outras providências.',
   preambulo: [
@@ -7,7 +7,7 @@ export const resolucaoCMAS = {
     'CONSIDERANDO o disposto na Lei Federal nº 8.742, de 07 de dezembro de 1993 – Lei Orgânica da Assistência Social (LOAS), especialmente em seus artigos 2º, 6º e 6º-A;',
     'CONSIDERANDO a Política Nacional de Assistência Social – PNAS;',
     'CONSIDERANDO a Norma Operacional Básica do Sistema Único de Assistência Social – NOB/SUAS 2012, especialmente os artigos 87 a 94, que definem a Vigilância Socioassistencial como função do SUAS;',
-    'CONSIDERANDO a Portaria da Secretaria Municipal de Assistência Social nº ____/2026, que instituiu a Vigilância Socioassistencial no município;',
+    'CONSIDERANDO a Portaria da Secretaria Municipal de Assistência Social nº ____/____, que instituiu a Vigilância Socioassistencial no município;',
     'CONSIDERANDO a deliberação da Plenária realizada em ___/___/_______,',
   ],
   resolve: 'RESOLVE:',
@@ -45,7 +45,7 @@ export const resolucaoCMAS = {
         {
           numero: 'IV',
           texto:
-            'aprovar o Plano de Trabalho Anual da Vigilância Socioassistencial, conforme previsto no art. 6º da Portaria Municipal nº ____/2026;',
+            'aprovar o Plano de Trabalho Anual da Vigilância Socioassistencial, conforme previsto no art. 6º da Portaria Municipal nº ____/____;',
         },
         {
           numero: 'V',

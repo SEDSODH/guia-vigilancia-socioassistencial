@@ -6,7 +6,7 @@ export interface PortariaArtigo {
 }
 
 export const portariaModelo = {
-  titulo: 'PORTARIA Nº ____/2026',
+  titulo: 'PORTARIA Nº ____/____',
   ementa:
     'Institui a Vigilância Socioassistencial no âmbito da Secretaria Municipal de Assistência Social e designa servidor(es) responsável(is) por sua coordenação.',
   preambulo: [

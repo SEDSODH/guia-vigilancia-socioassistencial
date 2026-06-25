@@ -21,6 +21,7 @@ import EstruturaEquipe from '@/components/astro/capitulos/EstruturaEquipe.astro'
 import DisseminacaoInformacao from '@/components/astro/capitulos/DisseminacaoInformacao.astro'
 import ApoioPlanejamento from '@/components/astro/capitulos/ApoioPlanejamento.astro'
 import Consolidacao from '@/components/astro/capitulos/Consolidacao.astro'
+import Checklist from '@/components/astro/capitulos/Checklist.astro'
 import ConsideracoesFinais from '@/components/astro/capitulos/ConsideracoesFinais.astro'
 import Referencias from '@/components/astro/capitulos/Referencias.astro'
 import FAQ from '@/components/astro/capitulos/FAQ.astro'
@@ -122,6 +123,10 @@ const b = BLOCK_ACCENTS
         </section>
       </div>
     </div>
+
+    <section class="bg-white dark:bg-slate-800 shadow-md rounded-xl p-6 md:p-10 print:shadow-none print:rounded-none transition-all hover:shadow-lg">
+      <Checklist />
+    </section>
 
     <section class="bg-white dark:bg-slate-800 shadow-md rounded-xl p-6 md:p-10 print:shadow-none print:rounded-none transition-all hover:shadow-lg">
       <ConsideracoesFinais />

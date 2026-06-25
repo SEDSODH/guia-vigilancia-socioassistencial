@@ -12,7 +12,7 @@ export const WELCOME_CONTENT = {
   title: 'Guia de Implantação da Vigilância Socioassistencial',
   subtitle: 'SUAS / RJ — COOVIG / SEDSODH',
   description:
-    'Este Guia apresenta um roteiro prático, em 4 etapas, para apoiar os municípios fluminenses na implantação da Vigilância Socioassistencial de forma planejada e formalizada. Inclui modelos de Portaria e Resolução do CMAS prontos para uso, além de orientações técnicas para a estruturação da equipe, produção e disseminação de informações, apoio ao planejamento municipal e consolidação da Vigilância.',
+    'Este Guia apresenta um roteiro prático, em 4 blocos temáticos, para apoiar os municípios fluminenses na implantação da Vigilância Socioassistencial de forma planejada e formalizada. Inclui modelos de Portaria e Resolução do CMAS prontos para uso, além de orientações técnicas para a estruturação da equipe, produção e disseminação de informações, apoio ao planejamento municipal e consolidação da Vigilância.',
   teamLabel: 'Equipe Responsável',
   otherCadernosLabel: 'Outros Cadernos desenvolvidos pela Vigilância Socioassistencial',
   otherCadernosEmpty: 'Outros cadernos serão publicados em breve.',

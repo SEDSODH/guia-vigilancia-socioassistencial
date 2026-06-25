@@ -39,7 +39,7 @@ export const faqItems: FAQItem[] = [
   {
     question: 'Qual a periodicidade dos produtos da Vigilância?',
     answer:
-      'A periodicidade sugerida é: mensal (boletins operacionais e relatórios de monitoramento contínuo), trimestral (relatórios gerenciais e informes de progresso), semestral (relatórios de avaliação e painéis temáticos) e anual (relatório integrado, diagnóstico socioterritorial, prestação de contas ao CMAS).',
+      'A periodicidade sugerida é: mensal (boletins operacionais e relatórios de monitoramento contínuo), trimestral (relatórios gerenciais e informes de progresso), semestral (relatórios de avaliação e painéis temáticos), anual (relatório integrado e prestação de contas ao CMAS) e bienal (diagnóstico socioterritorial). Esses prazos são recomendações e podem ser ajustados conforme a realidade de cada município.',
   },
   {
     question: 'A Vigilância Socioassistencial se confunde com o Cadastro Único?',
